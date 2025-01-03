@@ -20,15 +20,17 @@ void UMarionettePhysicsComponent::CalculateGravity() {
 	FCollisionQueryParams QueryParams;
 	QueryParams.AddIgnoredActor(Owner);
 
-	TArray<FVector> TraceStartLocation;
-	TraceStartLocation
+	FVector TraceStartLocation[2] = {
+		Owner->Rig->LegRootLocation[Left],
+		Owner->Rig->LegRootLocation[Right]
+	};
 	
 	IsFootHit[Left] = GetWorld()->LineTraceSingleByChannel(FootHit[Left], Owner->Rig->LegRootLocation[Left], Owner->Rig->ToeLocation[Left], ECC_Pawn, QueryParams);
 	IsFootHit[Right] = GetWorld()->LineTraceSingleByChannel(FootHit[Right], Owner->Rig->LegRootLocation[Right], Owner->Rig->ToeLocation[Right], ECC_Pawn, QueryParams);
 
 	States->StatesUpdate(IsFootHit, FootHit);
 	
-	if (GetBodyState() == EBodyPhysState::Surf || GetBodyState() == EBodyPhysState::Fall) {
+	if (States->GetBodyState() == EBodyPhysState::Surf || States->GetBodyState() == EBodyPhysState::Fall) {
 		
 		// Gravity (Z axis) update.
 		
@@ -92,7 +94,7 @@ void UMarionettePhysicsComponent::CalculateGravity() {
 			FootHit[Right] = TempRightLegHit;
 		}
 
-		StatesUpdate();
+		//States->StatesUpdate();
 
 		// Applying physics.
 
@@ -101,7 +103,7 @@ void UMarionettePhysicsComponent::CalculateGravity() {
 			GEngine->AddOnScreenDebugMessage(-1, 0.01f, FColor::Blue, FString("Check 2"));
 		}
 
-		switch (GetBodyState())
+		switch (States->GetBodyState())
 		{
 		case EBodyPhysState::Fall:
 			Owner->SetActorLocation(Owner->GetActorLocation() + FallShift * 100);
@@ -113,7 +115,7 @@ void UMarionettePhysicsComponent::CalculateGravity() {
 			
 			break;
 		case EBodyPhysState::Surf: //// UNDONE ////
-			FallShift.ProjectOnToNormal()
+			//FallShift.ProjectOnToNormal()
 
 			if (GEngine)
 			{
@@ -143,7 +145,7 @@ void UMarionettePhysicsComponent::CalculateGravity() {
 
 		// Variables set on landing.
 		
-		if (GetBodyState() == EBodyPhysState::LandingLeft || GetBodyState() == EBodyPhysState::LandingRight)
+		if (States->GetBodyState() == EBodyPhysState::LandingLeft || States->GetBodyState() == EBodyPhysState::LandingRight)
 		{
 			if (GEngine)
 			{
