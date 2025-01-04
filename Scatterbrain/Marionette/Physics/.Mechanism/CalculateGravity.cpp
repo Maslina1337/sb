@@ -8,27 +8,41 @@ void UMarionettePhysicsComponent::CalculateGravity() {
 
 	if (PhysicsIgnore) return;
 	
-	// Is body stable?
+	// Temp variables for local usage.
+	FVector TraceStart = FVector::ZeroVector;
+	FVector TraceEnd = FVector::ZeroVector;
+	FCollisionQueryParams TraceParams = FCollisionQueryParams::DefaultQueryParam;
+	TraceParams.AddIgnoredActor(Owner);
 	
-	if (States->GetIsStableMoment()) {
+	// Check foots stability actuality. Tracing a ToeFallSphereCollider in direction of gravity action.
+	TraceStart = Owner->Rig->PelvisLocation;
+	TraceEnd = TraceStart + GravitationalDirection *
+		(Owner->Rig->LegLength + Owner->Rig->FootToeLength + Owner->Rig->ToeBoneGroundOffset - ToesFallColliderRadius + TraceError);
+	const FCollisionShape ToesFallCollider = FCollisionShape::MakeSphere(ToesFallColliderRadius);
+	const FQuat ToesFallColliderRotation = FQuat(1,0,0,0); // No rotation.
+	
+	IsToesHit = GetWorld()->SweepSingleByChannel(ToesHit, TraceStart, TraceEnd, ToesFallColliderRotation, ECC_Visibility, ToesFallCollider, TraceParams);
+
+	// Is still stable?
+	if (IsToesHit)
+	{
 		States->CopyCurrentToPast();
 		return;
 	}
 
-	// Traces from leg root to foot.
-	
-	FCollisionQueryParams QueryParams;
-	QueryParams.AddIgnoredActor(Owner);
 
-	FVector TraceStartLocation[2] = {
-		Owner->Rig->LegRootLocation[Left],
-		Owner->Rig->LegRootLocation[Right]
-	};
-	
-	IsFootHit[Left] = GetWorld()->LineTraceSingleByChannel(FootHit[Left], Owner->Rig->LegRootLocation[Left], Owner->Rig->ToeLocation[Left], ECC_Pawn, QueryParams);
-	IsFootHit[Right] = GetWorld()->LineTraceSingleByChannel(FootHit[Right], Owner->Rig->LegRootLocation[Right], Owner->Rig->ToeLocation[Right], ECC_Pawn, QueryParams);
 
-	States->StatesUpdate(IsFootHit, FootHit);
+	
+
+	// Traces from pelvis to fall direction on length of fall shift.
+
+	FVector TraceStart = Owner->Rig->PelvisLocation;
+	FVector TraceEnd = TraceStart + FallShift;
+	FCollisionShape ToesFallCollider = FCollisionShape::MakeSphere(ToesFallColliderRadius);
+	
+	IsToesHit = GetWorld()->SweepSingleByChannel(ToesHit, , Owner->Rig->ToeLocation[Left], ECC_Visibility);
+
+	//States->StatesUpdate(IsFootHit, FootHit);
 	
 	if (States->GetBodyState() == EBodyPhysState::Surf || States->GetBodyState() == EBodyPhysState::Fall) {
 		

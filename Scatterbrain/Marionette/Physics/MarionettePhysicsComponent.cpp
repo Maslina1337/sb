@@ -24,8 +24,8 @@ UMarionettePhysicsComponent::UMarionettePhysicsComponent()
 	Mass = 60.0f; // kg.
 	SurfSlowdown = 2.0f; // m/s^2
 	
-	TWO_LIMBS_INIT(FootHit, FHitResult);
-	TWO_LIMBS_INIT(IsFootHit, bool);
+	ToesHit = FHitResult();
+	IsToesHit = false;
 }
 
 void UMarionettePhysicsComponent::SetOwner(AMarionette* OwnerClass)

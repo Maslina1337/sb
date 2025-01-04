@@ -61,10 +61,10 @@ public:
 	FVector InertiaShift;
 	
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
-	TArray<FHitResult> FootHit;
+	FHitResult ToesHit;
 	
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
-	TArray<bool> IsFootHit;
+	bool IsToesHit;
 
 	/* The speed value at the moment of landing. [m/s] */
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
@@ -129,6 +129,14 @@ public:
 	// (This value would be used with the cosine of SurfAngle) [m/s^2]
 	UPROPERTY(BlueprintReadOnly, EditAnywhere)
 	float SurfSlowdown;
+
+	// // Proportions of box collider of foots when stable. [units]
+	// UPROPERTY(BlueprintReadOnly, EditAnywhere)
+	// float FootStableColliderProportions;
+	
+	// Radius of spherical collider of both toes when falling. [units]
+	UPROPERTY(BlueprintReadOnly, EditAnywhere)
+	float ToesFallColliderRadius;
 	
 	// Proportions of pelvis collider traced on the current fall shift distance. To identify surf. [units]
 	UPROPERTY(BlueprintReadOnly, EditAnywhere)
