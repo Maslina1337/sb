@@ -8,39 +8,59 @@ void UMarionettePhysicsComponent::CalculateGravity() {
 
 	if (PhysicsIgnore) return;
 	
-	// Temp variables for local usage.
+	// Temp variables.
 	FVector TraceStart = FVector::ZeroVector;
 	FVector TraceEnd = FVector::ZeroVector;
 	FCollisionQueryParams TraceParams = FCollisionQueryParams::DefaultQueryParam;
 	TraceParams.AddIgnoredActor(Owner);
-	
-	// Check foots stability actuality. Tracing a ToeFallSphereCollider in direction of gravity action.
-	TraceStart = Owner->Rig->PelvisLocation;
-	TraceEnd = TraceStart + GravitationalDirection *
-		(Owner->Rig->LegLength + Owner->Rig->FootToeLength + Owner->Rig->ToeBoneGroundOffset - ToesFallColliderRadius + TraceError);
-	const FCollisionShape ToesFallCollider = FCollisionShape::MakeSphere(ToesFallColliderRadius);
-	const FQuat ToesFallColliderRotation = FQuat(1,0,0,0); // No rotation.
-	
-	IsToesHit = GetWorld()->SweepSingleByChannel(ToesHit, TraceStart, TraceEnd, ToesFallColliderRotation, ECC_Visibility, ToesFallCollider, TraceParams);
+	bool bTempIsHit = false;
+	FHitResult TempHit = FHitResult();
 
-	// Is still stable?
-	if (IsToesHit)
+	
+
+	// //-------------- CHECKING STABLE (NON-SURFING) PLATFORM UNDER FOOT --------------
+	//
+	// // Check foots stability actuality. Tracing a ToeFallSphereCollider in direction of gravity action.
+	// // *Supported only for actors that marionette standing on. Not for brushes.
+	// TraceStart = Owner->Rig->PelvisLocation;
+	// TraceEnd = TraceStart + GravitationalDirection *
+	// 	(Owner->Rig->LegLengthTiptoes + Owner->Rig->ToeBoneGroundOffset - ToesFallColliderRadius + TraceError);
+	// const FCollisionShape ToesFallCollider = FCollisionShape::MakeSphere(ToesFallColliderRadius);
+	// const FQuat ToesFallColliderRotation = FQuat(1,0,0,0); // No rotation.
+	//
+	// IsToesHit = GetWorld()->SweepSingleByChannel(ToesHit, TraceStart, TraceEnd, ToesFallColliderRotation, ECC_Visibility, ToesFallCollider, TraceParams);
+	//
+	// // Is Marionette still stable?
+	// if (IsToesHit)
+	// {
+	// 	States->CopyCurrentToPast();
+	// 	return;
+	// }
+	//
+	//
+	// //-------------- CHANGE YOUR LOCATION IF PLATFORM CHANGE LOCATION --------------
+	//
+	// //Position of the point on which the marionette stood.
+	// HitObjectRelativeLocation = ToesHit.HitObjectHandle.GetLocation();
+	// HitObjectRelativeRotation = ToesHit.HitObjectHandle.GetRotation();
+
+
+	
+	if (States->GetIsBodyStable())
 	{
 		States->CopyCurrentToPast();
 		return;
 	}
 
-
-
-	
-
 	// Traces from pelvis to fall direction on length of fall shift.
 
-	FVector TraceStart = Owner->Rig->PelvisLocation;
-	FVector TraceEnd = TraceStart + FallShift;
-	FCollisionShape ToesFallCollider = FCollisionShape::MakeSphere(ToesFallColliderRadius);
+	TraceStart = Owner->Rig->PelvisLocation;
+	TraceEnd = TraceStart + GravitationalDirection *
+		(Owner->Rig->LegLengthTiptoes + Owner->Rig->ToeBoneGroundOffset - ToesFallColliderRadius + TraceError);
+	const FCollisionShape ToesFallCollider = FCollisionShape::MakeSphere(ToesFallColliderRadius);
+	const FQuat ToesFallColliderRotation = FQuat(1,0,0,0); // No rotation.
 	
-	IsToesHit = GetWorld()->SweepSingleByChannel(ToesHit, , Owner->Rig->ToeLocation[Left], ECC_Visibility);
+	IsToesHit = GetWorld()->SweepSingleByChannel(ToesHit, TraceStart, TraceEnd, ToesFallColliderRotation, ECC_Visibility, ToesFallCollider, TraceParams);
 
 	//States->StatesUpdate(IsFootHit, FootHit);
 	
@@ -48,65 +68,43 @@ void UMarionettePhysicsComponent::CalculateGravity() {
 		
 		// Gravity (Z axis) update.
 		
-			GravitationalSpeed += (InertiaSpeed.GetSafeNormal().ProjectOnTo(GravitationalDirection) * InertiaSpeed);
+		GravitationalVelocity += (InertiaVelocity.GetSafeNormal().ProjectOnTo(GravitationalDirection) * InertiaVelocity);
 
-			GravitationalShift = GravitationalSpeed * Owner->TickDeltaTime +
-				(GravitationalDirection * GravitationalAcceleration -
-				GravitationalSpeed.Size() * GravitationalSlowdown) *
+		GravitationalShift = GravitationalVelocity * Owner->TickDeltaTime +
+			(GravitationalDirection * GravitationalAcceleration -
+			GravitationalVelocity.Size() * GravitationalSlowdown) *
 				pow(Owner->TickDeltaTime,2) / 2;
 
 		// Inertia (XY axes) update.
 			
-			InertiaSpeed = InertiaSpeed.ProjectOnToNormal(GravitationalDirection);
+		InertiaVelocity = InertiaVelocity.ProjectOnToNormal(GravitationalDirection);
 		
-			InertiaShift = InertiaSpeed * Owner->TickDeltaTime -
-				InertiaSpeed * InertiaSlowdown * pow(Owner->TickDeltaTime,2) / 2;
+		InertiaShift = InertiaVelocity * Owner->TickDeltaTime -
+			InertiaVelocity * InertiaSlowdown * pow(Owner->TickDeltaTime,2) / 2;
 
 		// Fall (All axes together) update.
 
-			FallShift = GravitationalShift + InertiaShift;
-			FallSpeed = FallShift / Owner->TickDeltaTime;
-
-		// Is Left leg able to touch the ground at this moment after physics applying (but the ray is also traced to set concentrate falling)
+		FallShift = GravitationalShift + InertiaShift;
+		FallVelocity = FallShift / Owner->TickDeltaTime;
 		
+		// Is Left leg able to touch the ground at this moment after physics applying?
+
+			// Trace with applying current fall shift.
+				
+				TraceStart = ToesHit.TraceEnd;
+				TraceEnd = TraceStart;
+		
+				bTempIsHit = GetWorld()->LineTraceSingleByChannel(TempHit, TraceStart, TraceEnd, ECC_Pawn, TraceParams);
+
 			// Shift over TimeOfConcentrateFalling.
 		
-			const FVector TraceConcentrate = (GravitationalSpeed + FallSpeed) * TimeOfConcentrateFalling +
+				const FVector TraceConcentrate = (GravitationalVelocity + FallVelocity) * TimeOfConcentrateFalling +
 				(GravitationalDirection * GravitationalAcceleration -
-				(GravitationalSpeed + FallSpeed).Size() * GravitationalSlowdown) *
+				(GravitationalVelocity + FallVelocity).Size() * GravitationalSlowdown) *
 				pow(TimeOfConcentrateFalling,2) / 2;
-
-			FHitResult TempHit;
-
-			// Left leg.
-				
-				FVector TempTraceStart = FootHit[Left].TraceEnd;
-				FVector TempTraceEnd = TempTraceStart + TraceConcentrate;
-		
-				const bool TempIsLeftLegHit = GetWorld()->LineTraceSingleByChannel(TempHit, TempTraceStart, TempTraceEnd, ECC_Pawn, QueryParams);
-				const FHitResult TempLeftLegHit = TempHit;
-				const bool WillLeftLegTouchGroundAtThisMoment = (TempHit.Distance <= FallShift.Size() && TempIsLeftLegHit);
-				
-			// Right leg.
-
-				TempTraceStart = FootHit[Right].TraceEnd;
-				TempTraceEnd = TempTraceStart + FallShift.GetSafeNormal() * TraceConcentrate;
-		
-				const bool TempIsRightLegHit = GetWorld()->LineTraceSingleByChannel(TempHit, TempTraceStart, TempTraceEnd, ECC_Pawn, QueryParams);
-				const FHitResult TempRightLegHit = TempHit;
-				const bool WillRightLegTouchGroundAtThisMoment = (TempHit.Distance <= FallShift.Size() && TempIsRightLegHit);
 
 		// Applying hit results to legs which touches the ground at this moment.
 		
-		if (WillLeftLegTouchGroundAtThisMoment) {
-			IsFootHit[Left] = true;
-			FootHit[Left] = TempLeftLegHit;
-		}
-
-		if (WillRightLegTouchGroundAtThisMoment) {
-			IsFootHit[Right] = true;
-			FootHit[Right] = TempRightLegHit;
-		}
 
 		//States->StatesUpdate();
 
@@ -166,13 +164,13 @@ void UMarionettePhysicsComponent::CalculateGravity() {
 				GEngine->AddOnScreenDebugMessage(-1, 0.01f, FColor::Blue, FString("Check 4 Gravity End"));
 			}
 			
-			LandingImpactSpeed = FallSpeed;
+			LandingImpactVelocity = FallVelocity;
 
 			GravitationalShift = FVector::ZeroVector;
-			GravitationalSpeed = FVector::ZeroVector;
+			GravitationalVelocity = FVector::ZeroVector;
 
 			InertiaShift = FVector::ZeroVector;
-			InertiaSpeed = FVector::ZeroVector;
+			InertiaVelocity = FVector::ZeroVector;
 		}
 	}
 }

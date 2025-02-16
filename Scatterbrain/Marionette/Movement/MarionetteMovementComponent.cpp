@@ -13,9 +13,9 @@ UMarionetteMovementComponent::UMarionetteMovementComponent()
 	WalkStepDirectionChangeCoefficient = 3;
 	RaysFarRotation = -10;
 	IterationsCountOfLocationClarify = 1;
-	StepSpeedWalk = 70;
+	StepVelocityWalk = 70;
 
-	MaxMovementAchievableInertiaSpeed = 600;
+	MaxMovementAchievableInertiaVelocity = 600;
 	MovementFallInertiaAcceleration = 200;
 }
 

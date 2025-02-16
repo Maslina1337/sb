@@ -1,7 +1,7 @@
 ﻿#include "../../Marionette.h"
 #include "../MarionettePhysicsComponent.h"
 
-void UMarionettePhysicsComponent::ApplyMomentum(FVector Momentum)
+void UMarionettePhysicsComponent::ApplyAbsoluteMomentum(FVector Momentum)
 {
 	FEFCT_MassRevision* MassRevisionPtr = Owner->Effects->MassRevision;
 	const float AsMass = (MassRevisionPtr->IsActive() ? MassRevisionPtr->GetParams().Mass : Mass);
@@ -10,5 +10,5 @@ void UMarionettePhysicsComponent::ApplyMomentum(FVector Momentum)
 	DebugStuff.Mass = 2;
 	MassRevisionPtr->Activate(10, DebugStuff);
 	
-	InertiaSpeed += Momentum / AsMass;
+	InertiaVelocity += Momentum / AsMass;
 }

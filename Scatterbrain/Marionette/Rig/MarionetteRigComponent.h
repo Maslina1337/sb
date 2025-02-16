@@ -104,6 +104,10 @@ public:
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
 	float LegLength;
 
+	/* RootKneeLength + KneeFootLength + FootToeLength */
+	UPROPERTY(BlueprintReadWrite, EditAnywhere)
+	float LegLengthTiptoes;
+
 	/* Min distance between Leg Root and Foot. */
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
 	float RootFootMinLength;

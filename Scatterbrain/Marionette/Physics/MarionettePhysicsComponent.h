@@ -37,24 +37,30 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void CalculateGravity();
 
-	void ApplyMomentum(FVector);
+	void ApplyAbsoluteMomentum(FVector);
 
 	////////////// VARIABLES //////////////
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
 	bool PhysicsIgnore; // Physics will not be calculated and applied despite the all states.
+
+	UPROPERTY(BlueprintReadWrite, EditAnywhere)
+	bool GravitationalSlowdownIgnore; // The inertial velocity will not experience slowdown.
 	
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
-	FVector GravitationalSpeed;
+	bool InertiaSlowdownIgnore; // The velocity of inertia will not experience slowdown.
+	
+	UPROPERTY(BlueprintReadWrite, EditAnywhere)
+	FVector GravitationalVelocity;
 
 	/* Vector describing the displacement of the actor under the influence of gravity in this frame (Z only) */
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
 	FVector GravitationalShift;
 
-	/* Inertia vector uses X and Y axes. If there is Z it will be turned in to a gravitational speed.
+	/* Inertia vector uses X and Y axes. If there is Z it will be turned in to a gravitational velocity.
 	 * You can use it as moment impulse. */
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(ClampMin="0"))
-	FVector InertiaSpeed;
+	FVector InertiaVelocity;
 
 	/* Marionette location shift at this moment. Only X and Y */
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
@@ -66,17 +72,25 @@ public:
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
 	bool IsToesHit;
 
-	/* The speed value at the moment of landing. [m/s] */
+	// Absolute Location relative to toes hit object. 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
-	FVector LandingImpactSpeed;
+	FVector HitObjectRelativeLocation;
+
+	// Absolute Rotation relative to toes hit object.
+	UPROPERTY(BlueprintReadWrite, EditAnywhere)
+	FRotator HitObjectRelativeRotation;
+
+	/* The velocity value at the moment of landing. [m/s] */
+	UPROPERTY(BlueprintReadWrite, EditAnywhere)
+	FVector LandingImpactVelocity;
 
 	/* Addition of the gravity shift vector and the inertial shift vector. [m] */
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
 	FVector FallShift;
 
-	// Sum of gravitational and inertial speed vectors. [m/s]
+	// Sum of gravitational and inertial velocity vectors. [m/s]
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
-	FVector FallSpeed;
+	FVector FallVelocity;
 
 	/* Estimated distance to landing site. */
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
@@ -95,13 +109,26 @@ public:
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
 	bool bCheckPelvisHit;
 
+	/* Ability to resist a quantity of acceleration while standing [m/s^2] */
+	/* If the acceleration is higher the Marionette need to try to move legs to make more stable position. */
+	UPROPERTY(BlueprintReadWrite, EditAnywhere)
+	bool StableAccelerationDamping;
+
+	/* Does Surface that Marionette standing on is able to move? */
+	UPROPERTY(BlueprintReadWrite, EditAnywhere)
+	bool bIsSurfaceActor;
+
+	/* Reference to actor that Marionette standing on. [Before use check bIsSurfaceActor] */
+	UPROPERTY(BlueprintReadWrite, EditAnywhere)
+	AActor* SurfaceActor;
+
 	////////////// CONSTANTS //////////////
 
 	/* The angle of the surf from the vertical. If the comparative angle is greater, then it is a surf. [degrees] */
 	UPROPERTY(BlueprintReadOnly, EditAnywhere)
 	float SurfingAngle;
 
-	/* Describes the increase in speed to the current gravitational speed per second. [m/s^2] */
+	/* Describes the increase in velocity to the current gravitational velocity per second. [m/s^2] */
 	UPROPERTY(BlueprintReadOnly, EditAnywhere)
 	float GravitationalAcceleration;
 
@@ -117,7 +144,7 @@ public:
 	UPROPERTY(BlueprintReadOnly, EditAnywhere)
 	float InertiaSlowdown;
 
-	/* The percentage value applied to the speed of gravity represents air resistance. [m/s^2 (Negative affect)] */
+	/* The percentage value applied to the velocity of gravity represents air resistance. [m/s^2 (Negative affect)] */
 	UPROPERTY(BlueprintReadOnly, EditAnywhere)
 	float GravitationalSlowdown;
 	

@@ -8,5 +8,5 @@ struct FAM_Step_Params
 	uint8 Act;
 	uint8 Sup;
 
-	float StepSpeed;
+	float StepVelocity;
 };

@@ -7,10 +7,10 @@ UMarionettePhysicsComponent::UMarionettePhysicsComponent()
 {
 	PhysicsIgnore = false;
 	
-	GravitationalSpeed = FVector::ZeroVector;
-	InertiaSpeed = FVector::ZeroVector;
-	LandingImpactSpeed = FVector::ZeroVector;
-	FallSpeed = FVector::ZeroVector;
+	GravitationalVelocity = FVector::ZeroVector;
+	InertiaVelocity = FVector::ZeroVector;
+	LandingImpactVelocity = FVector::ZeroVector;
+	FallVelocity = FVector::ZeroVector;
 	FallDistanceRemaining = 0.0f;
 	GravitationalDirection = FVector::DownVector;
 	SurfAngle = 0.0f;
@@ -23,6 +23,10 @@ UMarionettePhysicsComponent::UMarionettePhysicsComponent()
 	GravitationalSlowdown = 0.05f; // m/s^2 (Negative affect)
 	Mass = 60.0f; // kg.
 	SurfSlowdown = 2.0f; // m/s^2
+	/* DEV Value */ ToesFallColliderRadius = 10.f;
+	StableAccelerationDamping = 1.f;
+	bIsSurfaceActor = false;
+	SurfaceActor = nullptr;
 	
 	ToesHit = FHitResult();
 	IsToesHit = false;

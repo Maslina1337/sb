@@ -13,6 +13,7 @@ void UMarionetteRigComponent::InitRigVariables()
 	FootToeLength = (FootLocation[Left] - ToeLocation[Left]).Length();
 
 	LegLength = RootKneeLength + KneeFootLength;
+	LegLengthTiptoes = RootKneeLength + KneeFootLength + FootToeLength;
 
 	FootBoneGroundOffset = RootLocation.Z - FootLocation[Left].Z;
 	ToeBoneGroundOffset = RootLocation.Z - ToeLocation[Left].Z;

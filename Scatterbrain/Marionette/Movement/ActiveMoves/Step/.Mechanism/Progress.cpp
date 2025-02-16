@@ -13,5 +13,5 @@ void FAM_Step::Progress()
 
 	// Percent update.
 
-	StepPercent += Owner->TickDeltaTime * Params.StepSpeed;
+	StepPercent += Owner->TickDeltaTime * Params.StepVelocity;
 }

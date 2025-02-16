@@ -96,12 +96,12 @@ public:
 	float IterationsCountOfLocationClarify;
 
 	UPROPERTY(BlueprintReadOnly, EditAnywhere)
-	float StepSpeedWalk;
+	float StepVelocityWalk;
 
 	// Fall
 
 	UPROPERTY(BlueprintReadOnly, EditAnywhere)
-	float MaxMovementAchievableInertiaSpeed;
+	float MaxMovementAchievableInertiaVelocity;
 
 	UPROPERTY(BlueprintReadOnly, EditAnywhere)
 	float MovementFallInertiaAcceleration;
