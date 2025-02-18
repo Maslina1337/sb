@@ -13,7 +13,7 @@ UMarionettePhysicsComponent::UMarionettePhysicsComponent()
 	FallVelocity = FVector::ZeroVector;
 	FallDistanceRemaining = 0.0f;
 	GravitationalDirection = FVector::DownVector;
-	SurfAngle = 0.0f;
+	SurfAngle = 60.0f;
 	
 	SurfingAngle = 45.0f; // degrees
 	GravitationalAcceleration = 9.81f; // m/s^2
@@ -29,7 +29,7 @@ UMarionettePhysicsComponent::UMarionettePhysicsComponent()
 	SurfaceActor = nullptr;
 	
 	ToesHit = FHitResult();
-	IsToesHit = false;
+	bIsToesHit = false;
 }
 
 void UMarionettePhysicsComponent::SetOwner(AMarionette* OwnerClass)

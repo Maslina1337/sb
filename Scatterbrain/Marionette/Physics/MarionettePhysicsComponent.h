@@ -1,3 +1,12 @@
+/*
+	COMPONENT DESCRIPTION:
+
+	The main goal of physics component is to move the actor during sliding and falling according to physics
+	so that the feet have a chance to touch the ground. The component stops working after it brings the marionette
+	to a position in which the feet can actually reach a stable surface. The component provides functionality
+	for influencing the behavior of physics in the marionette.
+*/
+
 #pragma once
 
 #include "Scatterbrain/Marionette/Types/TwoLimbs.h"
@@ -26,6 +35,8 @@ private:
 	AMarionette* Owner;
 
 	IStates* States;
+
+	void Reset();
 
 public:
 	////////////// FUNCTIONS //////////////
@@ -70,7 +81,7 @@ public:
 	FHitResult ToesHit;
 	
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
-	bool IsToesHit;
+	bool bIsToesHit;
 
 	// Absolute Location relative to toes hit object. 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)

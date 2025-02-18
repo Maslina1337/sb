@@ -4,6 +4,10 @@ UMarionetteRigComponent::UMarionetteRigComponent()
 {
 	RootLocation = FVector();
 	RootRotation = FRotator();
+	HeadLocation = FVector();
+	HeadRotation = FRotator();
+	HeadGoalLocation = FVector();
+	HeadGoalRotation = FRotator();
 	PelvisLocation = FVector();
 	PelvisRotation = FRotator();
 	RootKneeLength = 0.0f;

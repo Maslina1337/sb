@@ -51,6 +51,20 @@ public:
 	FRotator RootRotation;
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
+	FVector HeadLocation;
+
+	UPROPERTY(BlueprintReadWrite, EditAnywhere)
+	FRotator HeadRotation;
+
+	// Control Rig Goal location for head.
+	UPROPERTY(BlueprintReadWrite, EditAnywhere)
+	FVector HeadGoalLocation;
+
+	// Control Rig Goal rotation for head.
+	UPROPERTY(BlueprintReadWrite, EditAnywhere)
+	FRotator HeadGoalRotation;
+
+	UPROPERTY(BlueprintReadWrite, EditAnywhere)
 	TArray<FVector> LegRootLocation;
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
