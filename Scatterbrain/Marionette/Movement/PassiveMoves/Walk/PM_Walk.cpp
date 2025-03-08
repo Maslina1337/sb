@@ -11,40 +11,28 @@ FPM_Walk::FPM_Walk(AMarionette* NewOwner)
 
 void FPM_Walk::Tick()
 {
-	FAM_Step_Params AM_Step_Params;
+	if (Owner->Movement->AM_Step)
+	
+	FAM_Step_Params AM_Step_Params = ;
 
 	//// Leg choose ////
-
-	// If both are fulcrums.
-	if (Owner->Physics->GetFootState(Left) == EFootPhysState::Fulcrum &&
-		Owner->Physics->GetFootState(Right) == EFootPhysState::Fulcrum)
+	
+	if (Owner->Physics->States->GetBodyState() == EBodyPhysState::Stable)
 	{
 		FVector PointBetweenFoots =
 			(Owner->Rig->FootGoalLocation[Left] - Owner->Rig->FootGoalLocation[Right]) / 2 + Owner->Rig->FootGoalLocation[Right];
 		
 		PointBetweenFoots.Z = 0;
 
-		const FVector2D MovementDirection = Owner->Movement->MovementDirection;
+		const FVector MovementDirection = Owner->Movement->MovementDirection;
 
 		TArray<float> FootAngle;
 		FootAngle.Init(0, 2);
 		
-		FootAngle[Left] = AngleBetweenTwoVectors(Owner->Rig->FootGoalLocation[Left] - PointBetweenFoots,Vector2To3(MovementDirection));
-		FootAngle[Right] = AngleBetweenTwoVectors(Owner->Rig->FootGoalLocation[Right] - PointBetweenFoots, Vector2To3(MovementDirection));
+		FootAngle[Left] = AngleBetweenTwoVectors(Owner->Rig->FootGoalLocation[Left] - PointBetweenFoots,MovementDirection);
+		FootAngle[Right] = AngleBetweenTwoVectors(Owner->Rig->FootGoalLocation[Right] - PointBetweenFoots, MovementDirection);
 
 		if (FootAngle[Left] > FootAngle[Right])
-		{
-			AM_Step_Params.Act = Right;
-			AM_Step_Params.Sup = Left;
-		}
-		else
-		{
-			AM_Step_Params.Act = Left;
-			AM_Step_Params.Sup = Right;
-		}
-	} else
-	{
-		if (Owner->Physics->GetFootState(Left) == EFootPhysState::Fulcrum)
 		{
 			AM_Step_Params.Act = Right;
 			AM_Step_Params.Sup = Left;

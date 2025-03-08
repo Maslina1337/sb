@@ -23,7 +23,7 @@ public:
 	void TickActivatedEffects();
 	void NotifyAboutActivation(FEffectBase*);
 
-	EFFECTS_DECLARATION
+	EFFECTS_DEF
 
 private:
 	UPROPERTY()

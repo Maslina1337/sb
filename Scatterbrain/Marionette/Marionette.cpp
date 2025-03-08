@@ -83,7 +83,7 @@ void AMarionette::Tick(const float DeltaTime)
 	Rig->UpdateRigVariables();
 	Rig->AttachGoalsToBones();
 	Sight->ApplySightRotation();
-	Physics->CalculateGravity();
+	Physics->TickGravity();
 	Movement->ChoosePassiveMove();
 	Movement->ExecutePassiveMove();
 	Movement->ExecuteActiveMoves();

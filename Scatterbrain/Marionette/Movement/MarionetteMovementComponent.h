@@ -3,6 +3,7 @@
 #include "../Types/EMove.h"
 
 #include "PassiveMoves/Walk/PM_Walk.h"
+#include "PassiveMoves/Fall/PM_Fall.h"
 #include "ActiveMoves/Step/AM_Step.h"
 
 #include "CoreMinimal.h"
@@ -36,7 +37,7 @@ public:
 	void SetOwner(AMarionette* OwnerClass);
 	
 	UFUNCTION(BlueprintCallable)
-	void SetMovementDirectionByVector2D(const FVector2D Input);
+	void SetMovementDirectionByInput(const FVector2D Input);
 
 	/* Automatically chooses passive move to execute later. */
 	UFUNCTION(BlueprintCallable)
@@ -49,9 +50,6 @@ public:
 	/* Executes current active moves. */
 	UFUNCTION(BlueprintCallable)
 	void ExecuteActiveMoves();
-
-	UFUNCTION(BlueprintCallable)
-	void AttachFootToHit(FVector& CurrentFootLocation, FHitResult Hit);
 	
 	////////////// VARIABLES //////////////
 
@@ -59,13 +57,17 @@ public:
 	UPROPERTY(BlueprintReadWrite, EditAnywhere) 
 	FVector2D InputVector;
 
+	// Movement projected and normalized on gravity direction plane. (usually XY)
+	UPROPERTY(BlueprintReadWrite, EditAnywhere) 
+	FVector MovementDirection;
+
 	// XY Movement Direction, rotates to sight Z.
 	UPROPERTY(BlueprintReadWrite, EditAnywhere) 
-	FVector2D MovementDirection;
+	FVector2D MovementDirectionXY;
 
 	// XYZ Movement Direction take in count sight rotation, rotates to sight XYZ.
 	UPROPERTY(BlueprintReadWrite, EditAnywhere) 
-	FVector MovementDirectionSpace;
+	FVector MovementDirectionXYZ;
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere) 
 	bool bIsRunning;
@@ -97,14 +99,6 @@ public:
 
 	UPROPERTY(BlueprintReadOnly, EditAnywhere)
 	float StepVelocityWalk;
-
-	// Fall
-
-	UPROPERTY(BlueprintReadOnly, EditAnywhere)
-	float MaxMovementAchievableInertiaVelocity;
-
-	UPROPERTY(BlueprintReadOnly, EditAnywhere)
-	float MovementFallInertiaAcceleration;
 	
 private:
 	UPROPERTY(EditAnywhere)
@@ -115,13 +109,11 @@ private:
 
 	UPROPERTY(EditAnywhere)
 	TArray<EActiveMove> CurrentActiveMoves;
-
-	UPROPERTY(EditAnywhere)
-	TArray<EActiveMove> PastActiveMoves;
 	
 public:
 	// Passive moves.
 	FPM_Walk* PM_Walk;
+	FPM_Fall* PM_Fall;
 	
 	// Active moves.
 	FAM_Step* AM_Step;
@@ -140,10 +132,6 @@ public:
 	And int16 isn't supported in Blueprints. */
 
 	UFUNCTION(BlueprintCallable)
-	int32 FindPastActiveMove(const EActiveMove Move) const; /* int32 'cause it can return -1.
-	And int16 isn't supported in Blueprints. */
-
-	UFUNCTION(BlueprintCallable)
 	bool ItsFirstIterationPassive(const EPassiveMove Move) const;
 
 	UFUNCTION(BlueprintCallable)
@@ -158,13 +146,7 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 	EActiveMove GetCurrentActiveMoveByIndex(const uint8 Index) const;
-
-	UFUNCTION(BlueprintCallable)
-	EActiveMove GetPastActiveMoveByIndex(const uint8 Index) const;
-
+	
 	UFUNCTION(BlueprintCallable)
 	TArray<EActiveMove> GetCurrentActiveMoves();
-
-	UFUNCTION(BlueprintCallable)
-	TArray<EActiveMove> GetPastActiveMoves();
 };

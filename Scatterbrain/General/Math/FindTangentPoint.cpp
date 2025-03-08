@@ -1,6 +1,6 @@
-#include "../AM_Step.h"
+#include "../Math.h"
 
-FVector2D FAM_Step::FindTangentPoint(const FVector2D Point, const FCircle2D Circle, const bool IsLeftTangent) {
+FVector2D FindTangentPoint(const FVector2D Point, const FCircle2D Circle, const bool IsLeftTangent) {
 	const double PointCenterLength = (Point - Circle.Center).Length();
 
 	// If the Point is too close to the circle, there are no tangents.

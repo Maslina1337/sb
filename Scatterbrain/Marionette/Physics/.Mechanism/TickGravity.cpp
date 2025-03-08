@@ -2,7 +2,7 @@
 #include "../MarionettePhysicsComponent.h"
 
 
-void UMarionettePhysicsComponent::CalculateGravity() {
+void UMarionettePhysicsComponent::TickGravity() {
 
 	if (PhysicsIgnore) return;
 
@@ -23,7 +23,7 @@ void UMarionettePhysicsComponent::CalculateGravity() {
 	// Checking the surface under the toes.
 
 	TraceStart = Owner->Rig->PelvisLocation;
-	TraceEnd = TraceStart + GravitationalDirection *
+	TraceEnd = TraceStart + Owner->Movement->PM_Fall->GetLandingDirection() *
 		(Owner->Rig->LegLengthTiptoes + Owner->Rig->ToeBoneGroundOffset - ToesFallColliderRadius + TraceError);
 	const FCollisionShape ToesFallCollider = FCollisionShape::MakeSphere(ToesFallColliderRadius);
 	const FQuat ToesFallColliderRotation = FQuat(1,0,0,0); // No rotation.
@@ -36,15 +36,15 @@ void UMarionettePhysicsComponent::CalculateGravity() {
 
 	GravitationalShift = GravitationalVelocity * Owner->TickDeltaTime +
 		(GravitationalDirection * GravitationalAcceleration -
-		GravitationalVelocity.Size() * GravitationalSlowdown) *
+		GravitationalVelocity.Size() * (GravitationalSlowdownIgnore ? 0 : GravitationalSlowdown)) *
 			pow(Owner->TickDeltaTime,2) / 2;
 
 	// Inertia (XY axes) update.
 			
 	InertiaVelocity = InertiaVelocity.ProjectOnToNormal(GravitationalDirection);
-		
+	
 	InertiaShift = InertiaVelocity * Owner->TickDeltaTime -
-		InertiaVelocity * InertiaSlowdown * pow(Owner->TickDeltaTime,2) / 2;
+		InertiaVelocity * (InertiaSlowdownIgnore ? 0 : InertiaSlowdown) * pow(Owner->TickDeltaTime,2) / 2;
 
 	// Fall (All axes together) update.
 
@@ -54,7 +54,7 @@ void UMarionettePhysicsComponent::CalculateGravity() {
 	// Trace with applying current fall shift.
 				
 	TraceStart = ToesHit.TraceEnd;
-	TraceEnd = TraceStart;
+	TraceEnd = TraceStart + FallShift;
 		
 	bIsToesHit = GetWorld()->LineTraceSingleByChannel(ToesHit, TraceStart, TraceEnd, ECC_Pawn, TraceParams);
 
@@ -74,6 +74,7 @@ void UMarionettePhysicsComponent::CalculateGravity() {
 	case EBodyPhysState::Stable:
 		Owner->SetActorLocation(Owner->GetActorLocation() - ToesHit.TraceStart + ToesHit.Location);
 		LandingImpactVelocity = FallVelocity;
+		LandingLocation = ToesHit.Location;
 		Reset();
 		break;
 	}

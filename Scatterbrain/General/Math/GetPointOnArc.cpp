@@ -1,6 +1,6 @@
-#include "../AM_Step.h"
+#include "../Math.h"
 
-FVector2D FAM_Step::GetPointOnArc(const FCircle2D Circle, const FVector2D TangentA, const FVector2D TangentB, float ArcLength)
+FVector2D GetPointOnArc(const FCircle2D Circle, const FVector2D TangentA, const FVector2D TangentB, float ArcLength)
 {
 	float AngleA = FMath::Atan2(TangentA.Y - Circle.Center.Y, TangentA.X - Circle.Center.X);
 	float AngleB = FMath::Atan2(TangentB.Y - Circle.Center.Y, TangentB.X - Circle.Center.X);

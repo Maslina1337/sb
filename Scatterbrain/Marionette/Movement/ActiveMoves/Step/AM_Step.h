@@ -1,47 +1,32 @@
 #pragma once
 
 #include "Params.h"
-#include "Scatterbrain/Marionette/Types/EWalkSides.h"
 #include "Scatterbrain/General/Math.h"
+#include "../ActiveMove.h"
 
 class AMarionette;
 
-class FAM_Step
+class FAM_Step : public TActiveMove<FAM_Step_Params>
 {
 public:
-	FAM_Step(AMarionette*);
 	
-	void SetParams(FAM_Step_Params);
-	void Tick();
+	FAM_Step();
 	
 private:
-	//// FUNCTIONALITY ////
 
-	// GENERAL //
-	void Start();
-	void Progress();
-	void End();
+	virtual void Start() override; // Executed on first frame active.
+	virtual void Progress() override; // Executed every tick (starting on second frame active).
+	virtual void End() override; // Not executed automatically. Can be called manually in progress when it's done.
 
-	// OTHER //
+
+	
 	void TransferWeight(); // Transfer body weight.
 	void MoveFoot(); // Reach your foot towards the point.
-
-	FVector2D FindTangentPoint(const FVector2D Point, const FCircle2D Circle, const bool IsLeftTangent);
-	FVector2D GetPointOnArc(const FCircle2D Circle, const FVector2D TangentA, const FVector2D TangentB, float ArcLength);
-	float GetArcLength(const FCircle2D Circle, const FVector2D TangentA, const FVector2D TangentB);
 	
 	float FootTrajectory(float X);
 	float FootTrajectoryInverse(float Y);
 
-	//// VARIABLES ////
-
-	// GENERAL //
-	bool ParamsIsNull; // On creating instance is true. When we first time set params it's become forever false. 
-	FAM_Step_Params Params; // Can be changed only when step isn't started yet.
-	FAM_Step_Params ParamsFree; // Can be changed at any time.
-	AMarionette* Owner; // Marionette instance.
-
-	// OTHER //
+private:
 	FVector ActorLocationOnStepStart;
 	FVector ActLocationOnStepStart;
 
@@ -67,10 +52,8 @@ private:
 	float RoundingArcToEndPathLength;
 	FVector2D RoundingTangentPointStart;
 	FVector2D RoundingTangentPointEnd;
-	
 
-	//// CONSTANTS ////
-
+private:
 	// The radius of the circular XY zone around the foot.
 	// If the Body is outside this zone, the foot is no longer considered a support.
 	const float FulcrumZoneRadius = 20;

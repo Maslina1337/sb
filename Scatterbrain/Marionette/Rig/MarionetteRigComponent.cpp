@@ -2,6 +2,8 @@
 
 UMarionetteRigComponent::UMarionetteRigComponent()
 {
+	Owner = nullptr;
+	
 	RootLocation = FVector();
 	RootRotation = FRotator();
 	HeadLocation = FVector();
