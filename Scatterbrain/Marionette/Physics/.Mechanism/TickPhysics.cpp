@@ -2,7 +2,11 @@
 #include "../MarionettePhysicsComponent.h"
 
 
+<<<<<<<< HEAD:Scatterbrain/Marionette/Physics/.Mechanism/TickPhysics.cpp
 void UMarionettePhysicsComponent::TickPhysics() {
+========
+void UMarionettePhysicsComponent::TickGravity() {
+>>>>>>>> origin/main:Scatterbrain/Marionette/Physics/.Mechanism/TickGravity.cpp
 
 	if (PhysicsIgnore) return;
 
