@@ -86,7 +86,7 @@ public:
 
 		/* Is all constants initialized? */
 		UPROPERTY(BlueprintReadWrite, EditAnywhere, Category="Default")
-		bool IsConstantsDone;
+		bool bIsConstantsDone;
 	
 		// Called every frame
 		virtual void Tick(float DeltaTime) override;

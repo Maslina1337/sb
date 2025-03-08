@@ -9,9 +9,6 @@
 
 #pragma once
 
-#include "Scatterbrain/Marionette/Types/TwoLimbs.h"
-#include "Scatterbrain/Marionette/Types/FSurfCheckReturn.h"
-#include "../Types/EPhysStates.h"
 #include "States.h"
 
 #include "CoreMinimal.h"
@@ -34,11 +31,11 @@ private:
 	UPROPERTY()
 	AMarionette* Owner;
 
-	IStates* States;
-
 	void Reset();
 
 public:
+	IStates* States;
+	
 	////////////// FUNCTIONS //////////////
 
 	UFUNCTION()
@@ -46,9 +43,12 @@ public:
 	
 	// The purpose of this function is to apply physics to the doll until it touches a surface on which it feels stable.
 	UFUNCTION(BlueprintCallable)
-	void CalculateGravity();
+	void TickPhysics();
 
-	void ApplyAbsoluteMomentum(FVector);
+	void ApplyAbsoluteMomentum(FVector Momentum);
+	void ApplyAbsoluteForce(FVector Force);
+	void AddAbsoluteVelocity(FVector Velocity);
+	void ApplyAbsoluteAcceleration(FVector Acceleration);
 
 	////////////// VARIABLES //////////////
 
@@ -94,6 +94,10 @@ public:
 	/* The velocity value at the moment of landing. [m/s] */
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
 	FVector LandingImpactVelocity;
+	
+	/* The location where foot/toe need  at the moment of landing. [m/s] */
+	UPROPERTY(BlueprintReadWrite, EditAnywhere)
+	FVector LandingLocation;
 
 	/* Addition of the gravity shift vector and the inertial shift vector. [m] */
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)

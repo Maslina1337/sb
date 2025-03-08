@@ -3,19 +3,19 @@
 
 void UMarionetteMovementComponent::ChoosePassiveMove()
 {
-    if (Owner->Physics->GetBodyState() == EBodyPhysState::Fall)
+    if (Owner->Physics->States->GetBodyState() == EBodyPhysState::Fall)
     {
         SetPassiveMove(EPassiveMove::Fall);
         return;
     }
 
-    if (Owner->Physics->GetBodyState() == EBodyPhysState::Surf)
+    if (Owner->Physics->States->GetBodyState() == EBodyPhysState::Surf)
     {
         SetPassiveMove(EPassiveMove::Surf);
         return;
     }
 
-    if (Owner->Physics->GetIsBodyStable())
+    if (Owner->Physics->States->GetBodyState() == EBodyPhysState::Stable)
     {
         if (MovementDirection.Length() == 0)
         {
@@ -30,6 +30,5 @@ void UMarionetteMovementComponent::ChoosePassiveMove()
         {
             SetPassiveMove(EPassiveMove::Walk);
         }
-        return;
     }
 }

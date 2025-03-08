@@ -4,12 +4,15 @@
 // Sets default values for this component's properties
 UMarionetteEffectsComponent::UMarionetteEffectsComponent()
 {
+	Owner = nullptr;
 	
+	EFFECTS_INIT_NULL
 }
 
 void UMarionetteEffectsComponent::SetOwner(AMarionette* OwnerClass)
 {
 	Owner = OwnerClass;
+	
 	EFFECTS_INIT
 }
 

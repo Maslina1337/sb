@@ -20,7 +20,6 @@ void UMarionetteMovementComponent::AddActiveMove(const EActiveMove NewMove)
 		}
 	}
 	
-	PastActiveMoves = CurrentActiveMoves;
 	CurrentActiveMoves.Add(NewMove);
 }
 
@@ -41,7 +40,6 @@ void UMarionetteMovementComponent::DeleteActiveMove(const EActiveMove Move)
 		return;
 	}
 	
-	PastActiveMoves = CurrentActiveMoves;
 	CurrentActiveMoves.RemoveAt(Index);
 }
 
@@ -56,29 +54,6 @@ int32 UMarionetteMovementComponent::FindCurrentActiveMove(const EActiveMove Move
 		}
 	}
 	return Index;
-}
-
-int32 UMarionetteMovementComponent::FindPastActiveMove(const EActiveMove Move) const
-{
-	int16 Index = -1;
-	for (uint8 i = 0; i < PastActiveMoves.Num(); i++)
-	{
-		if (PastActiveMoves[i] == Move)
-		{
-			Index = i;
-		}
-	}
-	return Index;
-}
-
-bool UMarionetteMovementComponent::ItsFirstIterationPassive(const EPassiveMove Move) const
-{
-	return (PastPassiveMove != Move);
-}
-
-bool UMarionetteMovementComponent::ItsFirstIterationActive(const EActiveMove Move) const
-{
-	return (FindPastActiveMove(Move) == -1);
 }
 
 /// Getters ///
@@ -102,22 +77,7 @@ EActiveMove UMarionetteMovementComponent::GetCurrentActiveMoveByIndex(const uint
 	return EActiveMove::None;
 }
 
-EActiveMove UMarionetteMovementComponent::GetPastActiveMoveByIndex(const uint8 Index) const
-{
-	if (Index <= PastActiveMoves.Num() - 1)
-	{
-		return PastActiveMoves[Index];
-	}
-	
-	return EActiveMove::None;
-}
-
 TArray<EActiveMove> UMarionetteMovementComponent::GetCurrentActiveMoves()
 {
 	return CurrentActiveMoves;
-};
-
-TArray<EActiveMove> UMarionetteMovementComponent::GetPastActiveMoves()
-{
-	return PastActiveMoves;
 };

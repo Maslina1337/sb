@@ -1,8 +1,5 @@
 ﻿#include "States.h"
 #include "Scatterbrain/Marionette/Marionette.h"
-#include "Scatterbrain/Marionette/Types/TwoLimbs.h"
-
-using namespace TwoLimbs;
 
 IStates::IStates(AMarionette* OwnerClass)
 {

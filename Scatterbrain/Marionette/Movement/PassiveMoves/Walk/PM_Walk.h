@@ -17,4 +17,12 @@ private:
 	float AngleVisionToMoveDirection;
 	
 	EWalkSide GetWalkSideByAngle();
+
+	FVector FootBox;
+	float SideWalkAngleBegin;
+	float SideWalkAngleEnd;
+	float WalkStepDirectionChangeCoefficient;
+	float RaysFarRotation;
+	int8 IterationsCountOfLocationClarify;
+	float StepVelocityWalk;
 };

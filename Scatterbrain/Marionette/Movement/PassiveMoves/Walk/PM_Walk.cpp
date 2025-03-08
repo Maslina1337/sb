@@ -7,44 +7,40 @@ using namespace TwoLimbs;
 FPM_Walk::FPM_Walk(AMarionette* NewOwner)
 {
 	Owner = NewOwner;
+
+	FootBox = FVector(30, 10, 10);
+	SideWalkAngleBegin = 60.f;
+	SideWalkAngleEnd = 120.f;
+	WalkStepDirectionChangeCoefficient = 3.f;
+	RaysFarRotation = -10.f;
+	IterationsCountOfLocationClarify = 1;
+	StepVelocityWalk = 70.f;
+	AngleVisionToMoveDirection = 0.f;
 }
 
 void FPM_Walk::Tick()
 {
+	
 	FAM_Step_Params AM_Step_Params;
 
 	//// Leg choose ////
-
-	// If both are fulcrums.
-	if (Owner->Physics->GetFootState(Left) == EFootPhysState::Fulcrum &&
-		Owner->Physics->GetFootState(Right) == EFootPhysState::Fulcrum)
+	
+	if (Owner->Physics->States->GetBodyState() == EBodyPhysState::Stable)
 	{
 		FVector PointBetweenFoots =
 			(Owner->Rig->FootGoalLocation[Left] - Owner->Rig->FootGoalLocation[Right]) / 2 + Owner->Rig->FootGoalLocation[Right];
 		
 		PointBetweenFoots.Z = 0;
 
-		const FVector2D MovementDirection = Owner->Movement->MovementDirection;
+		const FVector MovementDirection = Owner->Movement->MovementDirection;
 
 		TArray<float> FootAngle;
 		FootAngle.Init(0, 2);
 		
-		FootAngle[Left] = AngleBetweenTwoVectors(Owner->Rig->FootGoalLocation[Left] - PointBetweenFoots,Vector2To3(MovementDirection));
-		FootAngle[Right] = AngleBetweenTwoVectors(Owner->Rig->FootGoalLocation[Right] - PointBetweenFoots, Vector2To3(MovementDirection));
+		FootAngle[Left] = AngleBetweenTwoVectors(Owner->Rig->FootGoalLocation[Left] - PointBetweenFoots,MovementDirection);
+		FootAngle[Right] = AngleBetweenTwoVectors(Owner->Rig->FootGoalLocation[Right] - PointBetweenFoots, MovementDirection);
 
 		if (FootAngle[Left] > FootAngle[Right])
-		{
-			AM_Step_Params.Act = Right;
-			AM_Step_Params.Sup = Left;
-		}
-		else
-		{
-			AM_Step_Params.Act = Left;
-			AM_Step_Params.Sup = Right;
-		}
-	} else
-	{
-		if (Owner->Physics->GetFootState(Left) == EFootPhysState::Fulcrum)
 		{
 			AM_Step_Params.Act = Right;
 			AM_Step_Params.Sup = Left;
@@ -58,7 +54,7 @@ void FPM_Walk::Tick()
 
 	//// Finding target point. ////
 
-	const float FirstRayWidth = Hypotenuse(Owner->Movement->FootBox.X, Owner->Movement->FootBox.Y);
+	const float FirstRayWidth = Hypotenuse(FootBox.X, FootBox.Y);
 	const float SecondRayXRotation = (AM_Step_Params.Act == Left ? 5.0f : -5.0f);
 
 	
@@ -66,12 +62,5 @@ void FPM_Walk::Tick()
 	//AM_Step_Params.TargetPoint = &;
 
 	//Setting Params for step. (even if it's already active, it doesn't matter)
-	Owner->Movement->AM_Step->SetParams(AM_Step_Params);
+	Owner->Movement->AM_Step->Activate(AM_Step_Params);
 }
-
-
-// Projecting Vision Rotator and Input Rotator to Horizontal plane and finding angle between it.
-// const FRotator VisionRotationXY = ProjectRotatorOntoPlane(VisionRotation, FVector::UpVector);
-// const FRotator InputRotator = VectorToRotatorWithRoll(MovementDirection, -90);
-// const FRotator InputRotatorXY = ProjectRotatorOntoPlane(InputRotator, FVector::UpVector);
-// const float AngleVisionToMoveDirection = ClampAngle(AngleBetweenTwoRotators(VisionRotationXY, InputRotatorXY));

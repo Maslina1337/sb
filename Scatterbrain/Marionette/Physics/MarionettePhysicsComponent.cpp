@@ -1,11 +1,14 @@
 #include "MarionettePhysicsComponent.h"
 
-using namespace TwoLimbs;
-
 // Sets default values for this component's properties
 UMarionettePhysicsComponent::UMarionettePhysicsComponent()
 {
+	Owner = nullptr;
+	States = nullptr;
+	
 	PhysicsIgnore = false;
+	InertiaSlowdownIgnore = false;
+	GravitationalSlowdownIgnore = false;
 	
 	GravitationalVelocity = FVector::ZeroVector;
 	InertiaVelocity = FVector::ZeroVector;
@@ -30,6 +33,8 @@ UMarionettePhysicsComponent::UMarionettePhysicsComponent()
 	
 	ToesHit = FHitResult();
 	bIsToesHit = false;
+
+	bCheckPelvisHit = false;
 }
 
 void UMarionettePhysicsComponent::SetOwner(AMarionette* OwnerClass)

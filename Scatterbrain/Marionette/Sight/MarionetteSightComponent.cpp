@@ -4,6 +4,8 @@
 // Sets default values for this component's properties
 UMarionetteSightComponent::UMarionetteSightComponent()
 {
+	Owner = nullptr;
+	
 	SpringArmStep = 10.0f;
 	SpringArmMinLength = 600.0f;
 	SpringArmMaxLength = 100.0f;

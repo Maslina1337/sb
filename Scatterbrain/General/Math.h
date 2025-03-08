@@ -71,6 +71,9 @@ FVector Vector2To3(const FVector2D Vector2D);
 bool IsLineIntersectingCircle(FLine2D Line, FCircle2D Circle);
 bool IsRectangleIntersectingCircle(FRectangle2D Rectangle, FCircle2D Circle);
 float GetProjectionLength(const FVector Vector, const FVector On, const bool NeedNegative = false);
+FVector2D FindTangentPoint(const FVector2D Point, const FCircle2D Circle, const bool IsLeftTangent);
+FVector2D GetPointOnArc(const FCircle2D Circle, const FVector2D TangentA, const FVector2D TangentB, float ArcLength);
+float GetArcLength(const FCircle2D Circle, const FVector2D TangentA, const FVector2D TangentB);
 
 FVector ClearZ(FVector);
 FVector ClearX(FVector);
