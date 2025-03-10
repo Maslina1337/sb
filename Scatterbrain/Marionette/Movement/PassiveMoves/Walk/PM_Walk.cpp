@@ -1,6 +1,7 @@
 #include "PM_Walk.h"
 #include "../../../Marionette.h"
 #include "../../../Types/TwoLimbs.h"
+#include "Scatterbrain/Marionette/Movement/ActiveMoves/Step/AM_Step.h"
 
 using namespace TwoLimbs;
 
@@ -20,7 +21,6 @@ FPM_Walk::FPM_Walk(AMarionette* NewOwner)
 
 void FPM_Walk::Tick()
 {
-	
 	FAM_Step_Params AM_Step_Params;
 
 	//// Leg choose ////
@@ -62,5 +62,8 @@ void FPM_Walk::Tick()
 	//AM_Step_Params.TargetPoint = &;
 
 	//Setting Params for step. (even if it's already active, it doesn't matter)
-	Owner->Movement->AM_Step->Activate(AM_Step_Params);
+	FAM_Step* AM_Step = Owner->Movement->AM_Step;
+	
+	if (AM_Step->IsActive()) AM_Step->SetParamsFree(AM_Step_Params);
+	else AM_Step->Activate(AM_Step_Params);
 }

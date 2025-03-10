@@ -1,5 +1,4 @@
-﻿#include "../../Marionette.h"
-#include "../MarionettePhysicsComponent.h"
+﻿#include "../MarionettePhysicsComponent.h"
 
 void UMarionettePhysicsComponent::AddAbsoluteVelocity(FVector Velocity)
 {

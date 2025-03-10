@@ -1,6 +1,11 @@
 #include "MarionetteMovementComponent.h"
 #include "Scatterbrain/Marionette/Marionette.h"
 
+// Moves includes (do not move it to .h [template classes such as TActiveMove will break.])
+#include "PassiveMoves/Walk/PM_Walk.h"
+#include "PassiveMoves/Fall/PM_Fall.h"
+#include "ActiveMoves/Step/AM_Step.h"
+
 // Sets default values for this component's properties
 UMarionetteMovementComponent::UMarionetteMovementComponent()
 {
@@ -73,16 +78,6 @@ int32 UMarionetteMovementComponent::FindCurrentActiveMove(const EActiveMove Move
 		}
 	}
 	return Index;
-}
-
-bool UMarionetteMovementComponent::ItsFirstIterationPassive(const EPassiveMove Move) const
-{
-	return (PastPassiveMove != Move);
-}
-
-bool UMarionetteMovementComponent::ItsFirstIterationActive(const EActiveMove Move) const
-{
-	return (FindPastActiveMove(Move) == -1);
 }
 
 /// Getters ///

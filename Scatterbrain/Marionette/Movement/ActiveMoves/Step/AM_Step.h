@@ -13,14 +13,10 @@ public:
 	FAM_Step(AMarionette* Owner_);
 	
 private:
-
+	
 	virtual void Start() override; // Executed on first frame active.
 	virtual void Progress() override; // Executed every tick (starting on second frame active).
 	virtual void End() override; // Not executed automatically. Can be called manually in progress when it's done.
-
-	// Params valid check. If you have a valid criteria, implement it as a IsValid function in Params struct and call
-	// it on overriding. Or else just type "return true;" on override.
-	virtual bool IsParamsValid(FAM_Step_Params Params_) override { return true; }
 	
 	void TransferWeight(); // Transfer body weight.
 	void MoveFoot(); // Reach your foot towards the point.
@@ -29,6 +25,7 @@ private:
 	float FootTrajectoryInverse(float Y);
 
 private:
+	
 	FVector ActorLocationOnStepStart;
 	FVector ActLocationOnStepStart;
 
@@ -43,7 +40,7 @@ private:
 	// Is it possible to reach the fulcrum zone without lifting the act foot off the ground?
 	bool bIsPossibleToReachFulcrumZoneStanding;
 
-	FCircle2D SupLegWidthCircle;
+	FCircle2D SupRoundingCircle;
 
 	// Rounding. (Setting on step start...)
 	bool NeedRounding;
@@ -56,6 +53,7 @@ private:
 	FVector2D RoundingTangentPointEnd;
 
 private:
+	
 	// The radius of the circular XY zone around the foot.
 	// If the Body is outside this zone, the foot is no longer considered a support.
 	const float FulcrumZoneRadius = 20;
@@ -74,4 +72,6 @@ private:
 	// Maximal difference between start fool location and target point.
 	const float MaxStepHeight = 50.0f; // Vertical difference.
 	const float MaxStepLength = 50.0f; // Horizontal difference.
+
+	const float RoundingRadius = 5.f; // Radius of rounding. 
 };

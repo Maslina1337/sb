@@ -3,6 +3,8 @@
 
 FAM_Step::FAM_Step(AMarionette* Owner_) : TActiveMove(Owner_)
 {
+	EnumName = EActiveMove::Step;
+	
 	ActorLocationOnStepStart = FVector::ZeroVector;
 	ActLocationOnStepStart = FVector::ZeroVector;
 
@@ -16,7 +18,7 @@ FAM_Step::FAM_Step(AMarionette* Owner_) : TActiveMove(Owner_)
 	
 	bIsPossibleToReachFulcrumZoneStanding = false;
 
-	SupLegWidthCircle = FCircle2D();
+	SupRoundingCircle = FCircle2D();
 	
 	NeedRounding = false;
 	IsRoundingClockwise = false;

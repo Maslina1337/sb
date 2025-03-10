@@ -2,9 +2,10 @@
 
 #include "../Types/EMove.h"
 
-#include "PassiveMoves/Walk/PM_Walk.h"
-#include "PassiveMoves/Fall/PM_Fall.h"
-#include "ActiveMoves/Step/AM_Step.h"
+// Moves forward declaration.
+class FPM_Walk;
+class FPM_Fall;
+class FAM_Step;
 
 #include "CoreMinimal.h"
 #include "Components/ActorComponent.h"
@@ -99,13 +100,7 @@ public:
 	UFUNCTION(BlueprintCallable)
 	int32 FindCurrentActiveMove(const EActiveMove Move) const; /* int32 'cause it can return -1.
 	And int16 isn't supported in Blueprints. */
-
-	UFUNCTION(BlueprintCallable)
-	bool ItsFirstIterationPassive(const EPassiveMove Move) const;
-
-	UFUNCTION(BlueprintCallable)
-	bool ItsFirstIterationActive(const EActiveMove Move) const;
-
+	
 	/// Getters ///
 	UFUNCTION(BlueprintCallable)
 	EPassiveMove GetCurrentPassiveMove() const;

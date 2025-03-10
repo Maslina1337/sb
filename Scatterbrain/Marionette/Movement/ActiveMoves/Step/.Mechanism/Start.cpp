@@ -10,7 +10,7 @@ void FAM_Step::Start()
 	ActorLocationOnStepStart = Owner->GetActorLocation();
 	ActLocationOnStepStart = Owner->Rig->FootLocation[Params.Act];
 	StepPercent = 0.0f;
-	SupLegWidthCircle = FCircle2D(Vector3To2(Owner->Rig->FootLocation[Params.Sup]), Owner->Movement->LegWidth);
+	SupRoundingCircle = FCircle2D(Vector3To2(Owner->Rig->FootLocation[Params.Sup]), RoundingRadius);
 
 	// Differences.
 	
@@ -66,7 +66,7 @@ void FAM_Step::Start()
 		NeedRounding = DistanceBetweenLineAndPoint(
 		Vector3To2(Owner->Rig->FootLocation[Params.Sup]),
 		Vector3To2(ActLocationOnStepStart),
-		Vector3To2(Params.TargetPoint)) < Owner->Movement->LegWidth;
+		Vector3To2(Params.TargetPoint)) < RoundingRadius;
 
 		// Setting Is Clockwise.
 		IsRoundingClockwise = Params.Act == Left;
@@ -77,15 +77,15 @@ void FAM_Step::Start()
 	if (NeedRounding)
 	{
 		RoundingTangentPointStart = FindTangentPoint(Vector3To2(Owner->Rig->FootLocation[Params.Act]),
-			SupLegWidthCircle,
+			SupRoundingCircle,
 			IsRoundingClockwise);
 		
 		RoundingTangentPointEnd = FindTangentPoint(Vector3To2(Params.TargetPoint),
-			SupLegWidthCircle,
+			SupRoundingCircle,
 			!IsRoundingClockwise);
 
 		RoundingStartToArcPathLength = (RoundingTangentPointStart - Vector3To2(Owner->Rig->FootLocation[Params.Act])).Length();
-		RoundingArcPathLength = GetArcLength(SupLegWidthCircle, RoundingTangentPointStart, RoundingTangentPointEnd);
+		RoundingArcPathLength = GetArcLength(SupRoundingCircle, RoundingTangentPointStart, RoundingTangentPointEnd);
 		RoundingArcToEndPathLength = (Vector3To2(Params.TargetPoint) - RoundingTangentPointEnd).Length();
 		RoundingFullPathLength = RoundingStartToArcPathLength + RoundingArcPathLength + RoundingArcToEndPathLength;
 	}

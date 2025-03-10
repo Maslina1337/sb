@@ -3,18 +3,18 @@
 
 EWalkSide FPM_Walk::GetWalkSideByAngle()
 {
-	if (AngleVisionToMoveDirection > Owner->Movement->SideWalkAngleBegin &&
-		AngleVisionToMoveDirection < Owner->Movement->SideWalkAngleEnd) {
+	if (AngleVisionToMoveDirection > SideWalkAngleBegin &&
+		AngleVisionToMoveDirection < SideWalkAngleEnd) {
 		return EWalkSide::Right;
 	}
 	
-	if (AngleVisionToMoveDirection < -(Owner->Movement->SideWalkAngleEnd) &&
-		AngleVisionToMoveDirection > Owner->Movement->SideWalkAngleEnd) {
+	if (AngleVisionToMoveDirection < -(SideWalkAngleEnd) &&
+		AngleVisionToMoveDirection > SideWalkAngleEnd) {
 		return EWalkSide::Backyard;
 	}
 
-	if (AngleVisionToMoveDirection < -(Owner->Movement->SideWalkAngleBegin) &&
-		AngleVisionToMoveDirection > -(Owner->Movement->SideWalkAngleEnd)) {
+	if (AngleVisionToMoveDirection < -(SideWalkAngleBegin) &&
+		AngleVisionToMoveDirection > -(SideWalkAngleEnd)) {
 		return EWalkSide::Left;
 	}
 

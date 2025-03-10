@@ -4,7 +4,7 @@
 
 // Mass Revision effect will use this params on start.
 
-struct FEFCT_MassRevision_Params final : public FParamsStrict
+struct FEFCT_MassRevision_Params final : FParamsStrict
 {
 	// Empty constructor
 	FEFCT_MassRevision_Params()

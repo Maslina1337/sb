@@ -22,13 +22,6 @@ void UMarionetteMovementComponent::ChoosePassiveMove()
             SetPassiveMove(EPassiveMove::Stand);
         }
         
-        if (bIsRunning)
-        {
-            SetPassiveMove(EPassiveMove::Run);
-        }
-        else
-        {
-            SetPassiveMove(EPassiveMove::Walk);
-        }
+        SetPassiveMove(EPassiveMove::Walk);
     }
 }

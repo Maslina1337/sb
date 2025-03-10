@@ -9,7 +9,9 @@ class AMarionette;
 // And be able to execute Deactivate and Tick methods from it.
 class FEffectStatusBase {
 public:
-	FEffectStatusBase(AMarionette*);
+	FEffectStatusBase(AMarionette* Owner_);
+
+	virtual ~FEffectStatusBase() {};
 
 	void Deactivate(); // To force effect to end. { true - deactivated, false - deactivation failed }
 	bool IsActive() const; // Getter for bIsActive.
@@ -36,7 +38,7 @@ protected:
 template <typename T>
 class FEffectStatus : public FEffectStatusBase {
 public:
-	//FEffectStatus(AMarionette*);
+
 	using FEffectStatusBase::FEffectStatusBase;
 	
 	//// Parent parts of functionality. ////

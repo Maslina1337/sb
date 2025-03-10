@@ -12,6 +12,11 @@ UMarionetteSightComponent::UMarionetteSightComponent()
 
 	SightRotation = FRotator();
 	SightSensitivity = 0.8f;
+
+	bIsFirstPerson = true;
+	bIsAbleToTogglePerson = true;
+
+	SpringArmPursuit
 }
 
 void UMarionetteSightComponent::SetOwner(AMarionette* OwnerClass)

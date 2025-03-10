@@ -70,7 +70,7 @@ void FAM_Step::MoveFoot()
 				// Rounding on arc.
 				const float SegmentTraveledPercent = CurrentPathTraveled - RoundingStartToArcPathLength;
 
-				GetPointOnArc(SupLegWidthCircle,
+				GetPointOnArc(SupRoundingCircle,
 					RoundingTangentPointStart,
 					RoundingTangentPointEnd,
 					SegmentTraveledPercent);

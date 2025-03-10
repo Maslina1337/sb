@@ -6,7 +6,7 @@
 class FEFCT_MassRevision : public FEffectStatus<FEFCT_MassRevision_Params>
 {
 public:
-	//FEFCT_MassRevision(AMarionette*);
+	
 	using FEffectStatus::FEffectStatus;
 
 protected:

@@ -3,10 +3,6 @@
 #include "Scatterbrain/Marionette/Types/FSurfCheckReturn.h"
 #include "../Types/EPhysStates.h"
 
-#include "CoreMinimal.h"
-#include "Components/ActorComponent.h"
-#include "MarionettePhysicsComponent.generated.h"
-
 class AMarionette;
 
 class IStates {

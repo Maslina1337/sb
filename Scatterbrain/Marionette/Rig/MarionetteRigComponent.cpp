@@ -19,6 +19,8 @@ UMarionetteRigComponent::UMarionetteRigComponent()
 	RootFootMinLength = 0.0f;
 	FootBoneGroundOffset = 0.0f;
 	ToeBoneGroundOffset = 0.0f;
+	LegLengthTiptoes = 0.0f;
+	PelvisHitDistance = 5.0f;
 
 	TWO_LIMBS_INIT(LegRootLocation, FVector);
 	TWO_LIMBS_INIT(LegRootRotation, FRotator);

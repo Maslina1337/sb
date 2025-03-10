@@ -3,7 +3,7 @@
 
 // Step will use this params on start.
 
-struct FAM_Step_Params final : public FParamsStrict 
+struct FAM_Step_Params final : FParamsStrict 
 {
 	FAM_Step_Params()
 	{
@@ -12,6 +12,8 @@ struct FAM_Step_Params final : public FParamsStrict
 		Sup = false;
 		StepVelocity = 1.f;
 	}
+	
+	virtual ~FAM_Step_Params() override {};
 	
 	FVector TargetPoint; // The place where the foot should end up.
 	bool Act;
