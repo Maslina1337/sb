@@ -52,9 +52,6 @@ public:
 	FRotator SightRotation;
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
-	float SpringArmPursuit;
-
-	UPROPERTY(BlueprintReadWrite, EditAnywhere)
 	float SpringArmStartLength;
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)

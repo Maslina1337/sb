@@ -7,8 +7,8 @@ UMarionetteSightComponent::UMarionetteSightComponent()
 	Owner = nullptr;
 	
 	SpringArmStep = 10.0f;
-	SpringArmMinLength = 600.0f;
-	SpringArmMaxLength = 100.0f;
+	SpringArmMinLength = 100.0f;
+	SpringArmMaxLength = 600.0f;
 
 	SightRotation = FRotator();
 	SightSensitivity = 0.8f;
@@ -16,7 +16,8 @@ UMarionetteSightComponent::UMarionetteSightComponent()
 	bIsFirstPerson = true;
 	bIsAbleToTogglePerson = true;
 
-	SpringArmPursuit
+	SpringArmStartLength = 300.f;
+	bIsSpringArmLengthChanging = false;
 }
 
 void UMarionetteSightComponent::SetOwner(AMarionette* OwnerClass)

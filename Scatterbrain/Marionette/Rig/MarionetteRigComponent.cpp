@@ -32,7 +32,7 @@ UMarionetteRigComponent::UMarionetteRigComponent()
 	TWO_LIMBS_INIT(ToeRotation, FRotator);
 	TWO_LIMBS_INIT(FootGoalLocation, FVector);
 	TWO_LIMBS_INIT(FootGoalRotation, FRotator);
-	TWO_LIMBS_INIT(FootAlphaIK, float);
+	TWO_LIMBS_VALUE(FootAlphaIK, 0.f, 0.f);
 }
 
 void UMarionetteRigComponent::SetOwner(AMarionette* OwnerClass)

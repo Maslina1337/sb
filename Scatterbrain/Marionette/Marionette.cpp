@@ -72,18 +72,15 @@ void AMarionette::BeginPlay()
 void AMarionette::Tick(const float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-
-	if (GEngine)
-	{
-		GEngine->AddOnScreenDebugMessage(-1, 0.01f, FColor::Red, FString("Tick"));
-	}
 	
 	TickDeltaTime = DeltaTime;
 	
 	Rig->UpdateRigVariables();
-	Rig->AttachGoalsToBones();
+	
 	Sight->ApplySightRotation();
+	
 	Physics->TickPhysics();
+	
 	Movement->ChoosePassiveMove();
 	Movement->ExecutePassiveMove();
 	Movement->ExecuteActiveMoves();

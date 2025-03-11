@@ -39,9 +39,6 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void UpdateRigVariables();
 
-	UFUNCTION(BlueprintCallable)
-	void AttachGoalsToBones();
-
 	////////////// VARIABLES //////////////
 	
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
@@ -64,40 +61,19 @@ public:
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
 	FRotator HeadGoalRotation;
 
-	UPROPERTY(BlueprintReadWrite, EditAnywhere)
-	TArray<FVector> LegRootLocation;
-
-	UPROPERTY(BlueprintReadWrite, EditAnywhere)
-	TArray<FRotator> LegRootRotation;
-
-	UPROPERTY(BlueprintReadWrite, EditAnywhere)
-	TArray<FVector> KneeLocation;
-
-	UPROPERTY(BlueprintReadWrite, EditAnywhere)
-	TArray<FRotator> KneeRotation;
-
-	UPROPERTY(BlueprintReadWrite, EditAnywhere)
-	TArray<FVector> FootLocation;
-
-	UPROPERTY(BlueprintReadWrite, EditAnywhere)
-	TArray<FRotator> FootRotation;
-
-	UPROPERTY(BlueprintReadWrite, EditAnywhere)
-	TArray<FVector> ToeLocation;
-
-	UPROPERTY(BlueprintReadWrite, EditAnywhere)
-	TArray<FRotator> ToeRotation;
-
+	TWO_LIMBS_DEF(LegRootLocation, FVector)
+	TWO_LIMBS_DEF(LegRootRotation, FRotator)
+	TWO_LIMBS_DEF(KneeLocation, FVector)
+	TWO_LIMBS_DEF(KneeRotation, FRotator)
+	TWO_LIMBS_DEF(FootLocation, FVector)
+	TWO_LIMBS_DEF(FootRotation, FRotator)
+	TWO_LIMBS_DEF(ToeLocation, FVector)
+	TWO_LIMBS_DEF(ToeRotation, FRotator)
 	/* Foot Ik goal location. */
-	UPROPERTY(BlueprintReadWrite, EditAnywhere)
-	TArray<FVector> FootGoalLocation;
-
+	TWO_LIMBS_DEF(FootGoalLocation, FVector)
 	/* Foot Ik goal rotation. */
-	UPROPERTY(BlueprintReadWrite, EditAnywhere)
-	TArray<FRotator> FootGoalRotation;
-
-	UPROPERTY(BlueprintReadWrite, EditAnywhere, meta = (ClampMin = "0", ClampMax = "1"))
-	TArray<float> FootAlphaIK;
+	TWO_LIMBS_DEF(FootGoalRotation, FRotator)
+	TWO_LIMBS_DEF(FootAlphaIK, float)
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
 	FVector PelvisLocation;
