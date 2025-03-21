@@ -83,8 +83,8 @@ void AMarionette::BeginPlay()
 	Effects->SetOwner(this);
 	Abilities->SetOwner(this);
 
-	FTimerHandle TimerHandle;
-	GetWorld()->GetTimerManager().SetTimer(TimerHandle, Development, &UMarionetteDevelopmentComponent::RewriteDataAsset, 5.0f, false);
+	//FTimerHandle TimerHandle;
+	//GetWorld()->GetTimerManager().SetTimer(TimerHandle, Development, &UMarionetteDevelopmentComponent::RewriteDataAsset, 5.0f, false);
 
 	// Setting up controller.
 	if (APlayerController* PlayerController = Cast<APlayerController>(Controller))
