@@ -4,6 +4,8 @@
 // Sets default values for this component's properties
 UMarionetteSightComponent::UMarionetteSightComponent()
 {
+	PrimaryComponentTick.bCanEverTick = false;
+	
 	Owner = nullptr;
 	
 	SpringArmStep = 10.0f;
@@ -11,12 +13,12 @@ UMarionetteSightComponent::UMarionetteSightComponent()
 	SpringArmMaxLength = 600.0f;
 
 	SightRotation = FRotator();
-	SightSensitivity = 0.8f;
+	SightSensitivity = 1.2f;
 
 	bIsFirstPerson = true;
 	bIsAbleToTogglePerson = true;
 
-	SpringArmStartLength = 300.f;
+	SpringArmDefaultLength = 300.f;
 	bIsSpringArmLengthChanging = false;
 }
 

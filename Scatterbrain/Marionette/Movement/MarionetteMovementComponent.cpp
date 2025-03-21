@@ -9,6 +9,8 @@
 // Sets default values for this component's properties
 UMarionetteMovementComponent::UMarionetteMovementComponent()
 {
+	PrimaryComponentTick.bCanEverTick = false;
+	
 	Owner = nullptr;
 	
 	// Passive moves.

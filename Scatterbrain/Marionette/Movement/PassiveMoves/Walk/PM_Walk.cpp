@@ -1,9 +1,11 @@
 #include "PM_Walk.h"
 #include "../../../Marionette.h"
-#include "../../../Types/TwoLimbs.h"
+#include "../../../Types/LeftRight.h"
 #include "Scatterbrain/Marionette/Movement/ActiveMoves/Step/AM_Step.h"
+#include "Scatterbrain/Marionette/Physics/MarionettePhysicsComponent.h"
+#include "Scatterbrain/Marionette/Rig/MarionetteRigComponent.h"
 
-using namespace TwoLimbs;
+using namespace LeftRight;
 
 FPM_Walk::FPM_Walk(AMarionette* NewOwner)
 {

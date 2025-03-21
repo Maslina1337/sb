@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../Types/TwoLimbs.h"
+#include "../Types/LeftRight.h"
 
 #include "CoreMinimal.h"
 #include "Components/ActorComponent.h"
@@ -34,10 +34,10 @@ public:
 	void SetOwner(AMarionette* OwnerClass);
 	
 	UFUNCTION(BlueprintCallable)
-	void InitRigVariables();
+	void LoadLengthData();
 
 	UFUNCTION(BlueprintCallable)
-	void UpdateRigVariables();
+	void UpdateBoneData();
 
 	////////////// VARIABLES //////////////
 	
@@ -61,19 +61,40 @@ public:
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
 	FRotator HeadGoalRotation;
 
-	TWO_LIMBS_DEF(LegRootLocation, FVector)
-	TWO_LIMBS_DEF(LegRootRotation, FRotator)
-	TWO_LIMBS_DEF(KneeLocation, FVector)
-	TWO_LIMBS_DEF(KneeRotation, FRotator)
-	TWO_LIMBS_DEF(FootLocation, FVector)
-	TWO_LIMBS_DEF(FootRotation, FRotator)
-	TWO_LIMBS_DEF(ToeLocation, FVector)
-	TWO_LIMBS_DEF(ToeRotation, FRotator)
-	/* Foot Ik goal location. */
-	TWO_LIMBS_DEF(FootGoalLocation, FVector)
+	UPROPERTY(BlueprintReadWrite, EditAnywhere)
+	TArray<FVector> LegRootLocation;
+
+	UPROPERTY(BlueprintReadWrite, EditAnywhere)
+	TArray<FRotator> LegRootRotation;
+
+	UPROPERTY(BlueprintReadWrite, EditAnywhere)
+	TArray<FVector> KneeLocation;
+
+	UPROPERTY(BlueprintReadWrite, EditAnywhere)
+	TArray<FRotator> KneeRotation;
+
+	UPROPERTY(BlueprintReadWrite, EditAnywhere)
+	TArray<FVector> FootLocation;
+
+	UPROPERTY(BlueprintReadWrite, EditAnywhere)
+	TArray<FRotator> FootRotation;
+
+	UPROPERTY(BlueprintReadWrite, EditAnywhere)
+	TArray<FVector> ToeLocation;
+
+	UPROPERTY(BlueprintReadWrite, EditAnywhere)
+	TArray<FRotator> ToeRotation;
+	
+	/* Foot Ik goal location. */;
+	UPROPERTY(BlueprintReadWrite, EditAnywhere)
+	TArray<FVector> FootGoalLocation;
+	
 	/* Foot Ik goal rotation. */
-	TWO_LIMBS_DEF(FootGoalRotation, FRotator)
-	TWO_LIMBS_DEF(FootAlphaIK, float)
+	UPROPERTY(BlueprintReadWrite, EditAnywhere)
+	TArray<FRotator> FootGoalRotation;
+
+	UPROPERTY(BlueprintReadWrite, EditAnywhere)
+	TArray<float> FootAlphaIK;
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
 	FVector PelvisLocation;

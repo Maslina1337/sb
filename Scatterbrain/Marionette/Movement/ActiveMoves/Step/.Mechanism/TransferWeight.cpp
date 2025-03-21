@@ -1,5 +1,6 @@
 #include "../AM_Step.h"
 #include "Scatterbrain/Marionette/Marionette.h"
+#include "Scatterbrain/Marionette/Rig/MarionetteRigComponent.h"
 
 void FAM_Step::TransferWeight()
 {

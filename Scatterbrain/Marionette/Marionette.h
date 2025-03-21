@@ -2,18 +2,11 @@
 
 #pragma once
 
-#include "Rig/MarionetteRigComponent.h"
-#include "Physics/MarionettePhysicsComponent.h"
-#include "Movement/MarionetteMovementComponent.h"
-#include "Sight/MarionetteSightComponent.h"
-#include "Narrative/MarionetteNarrativeComponent.h"
-#include "Effects/MarionetteEffectsComponent.h"
-#include "Abilities/MarionetteAbilitiesComponent.h"
-
 #include "../General/Math.h" // Important!
 
 #include "CoreMinimal.h"
 #include "GameFramework/Pawn.h"
+#include "Types/UDA_Marionette.h"
 #include "Marionette.generated.h"
 
 class USceneComponent;
@@ -22,6 +15,18 @@ class UCapsuleComponent;
 class UCameraComponent;
 class USpringArmComponent;
 class USkeletalMeshComponent;
+
+class UInputMappingContext;
+class UInputAction;
+
+class UMarionetteDevelopmentComponent;
+class UMarionetteRigComponent;
+class UMarionettePhysicsComponent;
+class UMarionetteMovementComponent;
+class UMarionetteSightComponent;
+class UMarionetteNarrativeComponent;
+class UMarionetteEffectsComponent;
+class UMarionetteAbilitiesComponent;
 
 UCLASS()
 class SCATTERBRAIN_API AMarionette : public APawn
@@ -36,7 +41,13 @@ protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
+	UPROPERTY(EditDefaultsOnly, Category="Input")
+	UInputMappingContext* InputMappingContext;
+
 public:
+
+	UPROPERTY(BlueprintReadOnly, VisibleAnywhere)
+	UMarionetteDevelopmentComponent* Development;
 	
 	UPROPERTY(BlueprintReadOnly, VisibleAnywhere)
 	UMarionetteRigComponent* Rig;
@@ -79,6 +90,23 @@ public:
 		UPROPERTY(BlueprintReadOnly, VisibleAnywhere)
 		USkeletalMeshComponent* SkeletalMeshComponent;
 
+	/*** Actions ***/
+	
+	UPROPERTY(EditDefaultsOnly, Category = "Input|Actions")
+	UInputAction* LookAction;
+
+	UFUNCTION(NotBlueprintable, Category = "Input|Handlers")
+	void LookActionHandler(const FInputActionValue& Value);
+
+	UPROPERTY(EditDefaultsOnly, Category = "Input|Actions")
+	UInputAction* MoveAction;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Input|Actions")
+	UInputAction* JumpAction;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Input|Actions")
+	UInputAction* CrouchAction;
+
 	/*** General ***/
 	
 		UPROPERTY(BlueprintReadOnly, EditAnywhere, Category="Default")
@@ -87,6 +115,9 @@ public:
 		/* Is all constants initialized? */
 		UPROPERTY(BlueprintReadWrite, EditAnywhere, Category="Default")
 		bool bIsConstantsDone;
+
+		UPROPERTY(EditDefaultsOnly)
+		UDA_Marionette* DataAsset;
 	
 		// Called every frame
 		virtual void Tick(float DeltaTime) override;

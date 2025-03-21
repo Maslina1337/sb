@@ -1,6 +1,8 @@
 #include "../../Marionette.h"
 #include "../MarionettePhysicsComponent.h"
 #include "Scatterbrain/Marionette/Movement/PassiveMoves/Fall/PM_Fall.h"
+#include "Scatterbrain/Marionette/Rig/MarionetteRigComponent.h"
+#include "Scatterbrain/Marionette/Movement/MarionetteMovementComponent.h"
 
 void UMarionettePhysicsComponent::TickPhysics() {
 

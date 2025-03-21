@@ -4,6 +4,7 @@
 
 #include "Scatterbrain/Marionette/Marionette.h"
 #include "Scatterbrain/Marionette/Types/EMove.h"
+#include "Scatterbrain/Marionette/Movement/MarionetteMovementComponent.h"
 
 // Not templated class that can be used as type for TArray to keep active moves.
 // And be able to execute Tick method from it.

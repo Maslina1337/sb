@@ -1,5 +1,6 @@
 ﻿#include "States.h"
 #include "Scatterbrain/Marionette/Marionette.h"
+#include "Scatterbrain/Marionette/Physics/MarionettePhysicsComponent.h"
 
 IStates::IStates(AMarionette* OwnerClass)
 {

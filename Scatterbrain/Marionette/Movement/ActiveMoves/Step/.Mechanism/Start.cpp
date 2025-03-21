@@ -1,8 +1,10 @@
 #include "../AM_Step.h"
 #include "Scatterbrain/Marionette/Marionette.h"
-#include "Scatterbrain/Marionette/Types/TwoLimbs.h"
+#include "Scatterbrain/Marionette/Types/LeftRight.h"
+#include "Scatterbrain/Marionette/Physics/MarionettePhysicsComponent.h"
+#include "Scatterbrain/Marionette/Rig/MarionetteRigComponent.h"
 
-using namespace TwoLimbs;
+using namespace LeftRight;
 
 void FAM_Step::Start()
 {

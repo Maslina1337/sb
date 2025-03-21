@@ -2,6 +2,8 @@
 
 UMarionetteRigComponent::UMarionetteRigComponent()
 {
+	PrimaryComponentTick.bCanEverTick = false;
+	
 	Owner = nullptr;
 	
 	RootLocation = FVector();
@@ -22,17 +24,17 @@ UMarionetteRigComponent::UMarionetteRigComponent()
 	LegLengthTiptoes = 0.0f;
 	PelvisHitDistance = 5.0f;
 
-	TWO_LIMBS_INIT(LegRootLocation, FVector);
-	TWO_LIMBS_INIT(LegRootRotation, FRotator);
-	TWO_LIMBS_INIT(KneeLocation, FVector);
-	TWO_LIMBS_INIT(KneeRotation, FRotator);
-	TWO_LIMBS_INIT(FootLocation, FVector);
-	TWO_LIMBS_INIT(FootRotation, FRotator);
-	TWO_LIMBS_INIT(ToeLocation, FVector);
-	TWO_LIMBS_INIT(ToeRotation, FRotator);
-	TWO_LIMBS_INIT(FootGoalLocation, FVector);
-	TWO_LIMBS_INIT(FootGoalRotation, FRotator);
-	TWO_LIMBS_VALUE(FootAlphaIK, 0.f, 0.f);
+	LEFT_RIGHT_INIT(LegRootLocation, FVector::ZeroVector);
+	LEFT_RIGHT_INIT(LegRootRotation, FRotator::ZeroRotator);
+	LEFT_RIGHT_INIT(KneeLocation, FVector::ZeroVector);
+	LEFT_RIGHT_INIT(KneeRotation, FRotator::ZeroRotator);
+	LEFT_RIGHT_INIT(FootLocation, FVector::ZeroVector);
+	LEFT_RIGHT_INIT(FootRotation, FRotator::ZeroRotator);
+	LEFT_RIGHT_INIT(ToeLocation, FVector::ZeroVector);
+	LEFT_RIGHT_INIT(ToeRotation, FRotator::ZeroRotator);
+	LEFT_RIGHT_INIT(FootGoalLocation, FVector::ZeroVector);
+	LEFT_RIGHT_INIT(FootGoalRotation, FRotator::ZeroRotator);
+	LEFT_RIGHT_INIT(FootAlphaIK, 0.f);
 }
 
 void UMarionetteRigComponent::SetOwner(AMarionette* OwnerClass)

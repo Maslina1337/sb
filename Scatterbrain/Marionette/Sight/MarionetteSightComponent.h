@@ -15,10 +15,6 @@ public:
 	// Sets default values for this component's properties
 	UMarionetteSightComponent();
 
-protected:
-	// Called when the game starts
-	// virtual void BeginPlay() override;
-
 private:
 
 	UPROPERTY()
@@ -32,13 +28,10 @@ public:
 	void SetOwner(AMarionette* OwnerClass);
 	
 	UFUNCTION(BlueprintCallable)
-	void SetPerson(bool IsFirstPerson);
+	void SetPerson(bool bIsFirstPerson_);
 
 	UFUNCTION(BlueprintCallable)
-	void SetSightRotationByVector2D(FVector2D Vector2D);
-
-	UFUNCTION(BlueprintCallable)
-	void ApplySightRotation();
+	void UpdateSight(const FVector2D XY);
 
 	////////////// VARIABLES //////////////
 
@@ -52,7 +45,7 @@ public:
 	FRotator SightRotation;
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
-	float SpringArmStartLength;
+	float SpringArmDefaultLength;
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
 	bool bIsSpringArmLengthChanging;

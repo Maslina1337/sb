@@ -1,5 +1,7 @@
 #include "../MarionetteMovementComponent.h"
 #include "Scatterbrain/Marionette/Marionette.h"
+#include "Scatterbrain/Marionette/Sight/MarionetteSightComponent.h"
+#include "Scatterbrain/Marionette/Physics/MarionettePhysicsComponent.h"
 
 void UMarionetteMovementComponent::SetMovementDirectionByInput(const FVector2D Input)
 {

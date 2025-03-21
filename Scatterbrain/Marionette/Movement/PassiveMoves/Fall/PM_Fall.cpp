@@ -1,5 +1,7 @@
 ﻿#include "PM_Fall.h"
 #include "../../../Marionette.h"
+#include "Scatterbrain/Marionette/Physics/MarionettePhysicsComponent.h"
+#include "Scatterbrain/Marionette/Movement/MarionetteMovementComponent.h"
 
 FPM_Fall::FPM_Fall(AMarionette* NewOwner)
 {
@@ -12,6 +14,8 @@ FPM_Fall::FPM_Fall(AMarionette* NewOwner)
 	InertiaAcceleration = 200.f;
 
 	LandingDirection = FVector::DownVector;
+
+	AnimLandingReady = 1.f;
 }
 
 void FPM_Fall::Tick()

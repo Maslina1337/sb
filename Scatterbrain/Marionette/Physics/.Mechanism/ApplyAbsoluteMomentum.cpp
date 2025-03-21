@@ -1,5 +1,6 @@
 ﻿#include "../../Marionette.h"
 #include "../MarionettePhysicsComponent.h"
+#include "Scatterbrain/Marionette/Effects/MarionetteEffectsComponent.h"
 
 void UMarionettePhysicsComponent::ApplyAbsoluteMomentum(FVector Momentum)
 {

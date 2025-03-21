@@ -3,6 +3,8 @@
 // Sets default values for this component's properties
 UMarionettePhysicsComponent::UMarionettePhysicsComponent()
 {
+	PrimaryComponentTick.bCanEverTick = false;
+	
 	Owner = nullptr;
 	States = nullptr;
 	

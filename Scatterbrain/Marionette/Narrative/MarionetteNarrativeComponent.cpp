@@ -3,7 +3,7 @@
 
 UMarionetteNarrativeComponent::UMarionetteNarrativeComponent()
 {
-	
+	PrimaryComponentTick.bCanEverTick = false;
 }
 
 void UMarionetteNarrativeComponent::SetOwner(AMarionette* OwnerClass)

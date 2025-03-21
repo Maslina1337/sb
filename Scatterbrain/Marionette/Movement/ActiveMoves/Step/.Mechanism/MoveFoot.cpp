@@ -1,5 +1,6 @@
 #include "../AM_Step.h"
 #include "Scatterbrain/Marionette/Marionette.h"
+#include "Scatterbrain/Marionette/Rig/MarionetteRigComponent.h"
 
 // Two points. One point have two fields describing it location in space: Vertical and Horizontal.
 struct FTwoPoints2D

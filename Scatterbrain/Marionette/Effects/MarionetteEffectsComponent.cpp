@@ -4,6 +4,8 @@
 // Sets default values for this component's properties
 UMarionetteEffectsComponent::UMarionetteEffectsComponent()
 {
+	PrimaryComponentTick.bCanEverTick = false;
+	
 	Owner = nullptr;
 	
 	EFFECTS_INIT_NULL
