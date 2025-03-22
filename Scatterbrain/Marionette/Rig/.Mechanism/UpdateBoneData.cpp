@@ -38,22 +38,9 @@ void UMarionetteRigComponent::UpdateBoneData()
 
 	// Debug
 	
-	DrawDebugSphere(Owner->GetWorld(), PelvisLocation, 30, 16, FColor::Green, true, 0, 0, 1);
-	DrawDebugSphere(Owner->GetWorld(), FootLocation[Left], 5, 16, FColor::Green, true, 0, 0, 1);
-	DrawDebugSphere(Owner->GetWorld(), FootLocation[Right], 5, 16, FColor::Green, true, 0, 0, 1);
-	DrawDebugSphere(Owner->GetWorld(), LegRootLocation[Left], 5, 16, FColor::Green, true, 0, 0, 1);
-	DrawDebugSphere(Owner->GetWorld(), LegRootLocation[Right], 5, 16, FColor::Green, true, 0, 0, 1);
-
-
-	// RootLocation = SkeletalMeshComponent->GetBoneLocation("root", EBoneSpaces::WorldSpace);
-	// HeadLocation = SkeletalMeshComponent->GetBoneLocation("head", EBoneSpaces::WorldSpace);
-	// PelvisLocation = SkeletalMeshComponent->GetBoneLocation("pelvis", EBoneSpaces::WorldSpace);
-	// LegRootLocation[Left] = SkeletalMeshComponent->GetBoneLocation("thigh_l", EBoneSpaces::WorldSpace);
-	// LegRootLocation[Right] = SkeletalMeshComponent->GetBoneLocation("thigh_r", EBoneSpaces::WorldSpace);
-	// KneeLocation[Left] = SkeletalMeshComponent->GetBoneLocation("calf_l", EBoneSpaces::WorldSpace);
-	// KneeLocation[Right] = SkeletalMeshComponent->GetBoneLocation("calf_r", EBoneSpaces::WorldSpace);
-	// FootLocation[Left] = SkeletalMeshComponent->GetBoneLocation("foot_l", EBoneSpaces::WorldSpace);
-	// FootLocation[Right] = SkeletalMeshComponent->GetBoneLocation("foot_r", EBoneSpaces::WorldSpace);
-	// ToeLocation[Left] = SkeletalMeshComponent->GetBoneLocation("ball_l", EBoneSpaces::WorldSpace);
-	// ToeLocation[Right] = SkeletalMeshComponent->GetBoneLocation("ball_r", EBoneSpaces::WorldSpace);
+	// DrawDebugSphere(Owner->GetWorld(), PelvisLocation, 30, 16, FColor::Green, true, 0, 0, 1);
+	// DrawDebugSphere(Owner->GetWorld(), FootLocation[Left], 5, 16, FColor::Green, true, 0, 0, 1);
+	// DrawDebugSphere(Owner->GetWorld(), FootLocation[Right], 5, 16, FColor::Green, true, 0, 0, 1);
+	// DrawDebugSphere(Owner->GetWorld(), LegRootLocation[Left], 5, 16, FColor::Green, true, 0, 0, 1);
+	// DrawDebugSphere(Owner->GetWorld(), LegRootLocation[Right], 5, 16, FColor::Green, true, 0, 0, 1);
 }

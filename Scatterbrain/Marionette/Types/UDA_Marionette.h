@@ -27,13 +27,12 @@ public:
     UPROPERTY(BlueprintReadWrite, EditAnywhere)
     float LegLengthTiptoes;
     
-    /* Min distance between Leg Root and Foot. */
-    UPROPERTY(BlueprintReadWrite, EditAnywhere)
-    float RootFootMinLength;
-    
     UPROPERTY(BlueprintReadOnly, EditAnywhere)
     float FootBoneGroundOffset;
     
     UPROPERTY(BlueprintReadOnly, EditAnywhere)
     float ToeBoneGroundOffset;
+
+    UPROPERTY(BlueprintReadOnly, EditAnywhere)
+    USkeletalMesh* Mesh;
 };

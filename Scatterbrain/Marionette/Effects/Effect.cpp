@@ -39,7 +39,7 @@ bool FEffect<T>::UpdateParamsFree(float const Duration, T const Params_)
 	return false;
 }
 
-void FEffectBase::Tick()
+void FEffectBase::TickManual()
 {
 	Progress(); // Execute child addition for tick.
 }

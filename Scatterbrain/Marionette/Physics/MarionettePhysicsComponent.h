@@ -43,7 +43,7 @@ public:
 	
 	// The purpose of this function is to apply physics to the doll until it touches a surface on which it feels stable.
 	UFUNCTION(BlueprintCallable)
-	void TickPhysics();
+	void TickManual();
 
 	void ApplyAbsoluteMomentum(FVector Momentum);
 	void ApplyAbsoluteForce(FVector Force);

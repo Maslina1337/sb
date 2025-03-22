@@ -24,8 +24,8 @@ UMarionettePhysicsComponent::UMarionettePhysicsComponent()
 	GravitationalAcceleration = 9.81f; // m/s^2
 	TraceError = 0.001f; // unit (centimeters)
 	TimeOfConcentrateFalling = 3.0f; // s
-	InertiaSlowdown = 0.025f; // m/s^2 (Negative affect)
-	GravitationalSlowdown = 0.05f; // m/s^2 (Negative affect)
+	InertiaSlowdown = 0.25f; // m/s^2 (Negative affect)
+	GravitationalSlowdown = 0.15f; // m/s^2 (Negative affect)
 	Mass = 60.0f; // kg.
 	SurfSlowdown = 2.0f; // m/s^2
 	/* DEV Value */ ToesFallColliderRadius = 10.f;

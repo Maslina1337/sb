@@ -31,55 +31,22 @@ void UMarionetteDevelopmentComponent::RewriteDataAsset()
 	const FString PackageFileName = FPackageName::LongPackageNameToFilename(PackageName, FPackageName::GetAssetPackageExtension());
 
 	if (!MarionetteDataAsset) { UE_LOG(LogTemp, Error, TEXT("Failed to load DataAsset!")); return;}
-
-	UE_LOG(LogTemp, Log, TEXT("DataAsset before modification: %f"), MarionetteDataAsset->LegLength);
 	
 	// Data Changing.
 	RewriteDataAssetRig(MarionetteDataAsset);
 	
-	UE_LOG(LogTemp, Log, TEXT("DataAsset Path: %s"), *DataAssetPathStr);
-	UE_LOG(LogTemp, Log, TEXT("DataAsset after modification: %f"), MarionetteDataAsset->LegLength);
-
 	// Saving the changes.
-	if (MarionetteDataAsset->MarkPackageDirty()) {UE_LOG(LogTemp, Log, TEXT("IT'S DIRTY"));}
-	else {UE_LOG(LogTemp, Log, TEXT("IT'S NOT DIRTY"));}
+
+	// For some reason it does not mark package as dirty. But it still works after all...
+	MarionetteDataAsset->MarkPackageDirty();
 
 	FSavePackageArgs SaveArgs;
 	SaveArgs.TopLevelFlags = RF_Standalone;
-
+	
 	const bool bSaved = UPackage::SavePackage(Package, MarionetteDataAsset, *PackageFileName, SaveArgs);
 	
 	if (bSaved) {UE_LOG(LogTemp, Log, TEXT("DataAsset saved successfully!"));}
 	else {UE_LOG(LogTemp, Error, TEXT("Failed to save DataAsset!"));}
-
-	
-	// FString DataAssetPathStr = DataAssetPath.GetAssetPathString();
-	// UDA_Marionette* MarionetteDataAsset = LoadObject<UDA_Marionette>(nullptr, *DataAssetPathStr);
-	//
-	// if (!MarionetteDataAsset) { UE_LOG(LogTemp, Error, TEXT("Failed to load DataAsset!")); return;}
-	//
-	// UE_LOG(LogTemp, Log, TEXT("DataAsset before modification: %f"), MarionetteDataAsset->LegLength);
-	//
-	// // Data Changing.
-	// RewriteDataAssetRig(MarionetteDataAsset);
-	//
-	// UE_LOG(LogTemp, Log, TEXT("DataAsset Path: %s"), *DataAssetPathStr);
-	// UE_LOG(LogTemp, Log, TEXT("DataAsset after modification: %f"), MarionetteDataAsset->LegLength);
-	//
-	// // Saving the changes.
-	// if (MarionetteDataAsset->MarkPackageDirty()) {UE_LOG(LogTemp, Log, TEXT("IT'S DIRTY"));}
-	// else {UE_LOG(LogTemp, Log, TEXT("IT'S NOT DIRTY"));}
-	//
-	// FString PackageFileName = FPackageName::LongPackageNameToFilename(MarionetteDataAsset->GetOutermost()->GetName(),
-	// 	FPackageName::GetAssetPackageExtension());
-	//
-	// bool bSaved = UPackage::SavePackage(MarionetteDataAsset->GetOutermost(), MarionetteDataAsset, );
-	//
-	// // bool bSaved1 = UPackage::SavePackage(MarionetteDataAsset->GetOutermost(), MarionetteDataAsset,
-	// // 	RF_Standalone, *PackageFileName);
-	//
-	// if (bSaved) {UE_LOG(LogTemp, Log, TEXT("DataAsset saved successfully!"));}
-	// else {UE_LOG(LogTemp, Error, TEXT("Failed to save DataAsset!"));}
 }
 
 void UMarionetteDevelopmentComponent::RewriteDataAssetRig(UDA_Marionette* DA) const
@@ -96,9 +63,16 @@ void UMarionetteDevelopmentComponent::RewriteDataAssetRig(UDA_Marionette* DA) co
 	DA->KneeFootLength = (R->KneeLocation[Left] - R->FootLocation[Left]).Length();
 	DA->FootToeLength = (R->FootLocation[Left] - R->ToeLocation[Left]).Length();
 
-	DA->LegLength = R->RootKneeLength + R->KneeFootLength;
-	DA->LegLengthTiptoes = R->RootKneeLength + R->KneeFootLength + R->FootToeLength;
+	DA->LegLength = DA->RootKneeLength + DA->KneeFootLength;
+	DA->LegLengthTiptoes = DA->RootKneeLength + DA->KneeFootLength + DA->FootToeLength;
 
-	DA->FootBoneGroundOffset = R->RootLocation.Z - R->FootLocation[Left].Z;
-	DA->ToeBoneGroundOffset = R->RootLocation.Z - R->ToeLocation[Left].Z;
+	DA->FootBoneGroundOffset = abs(R->RootLocation.Z - R->FootLocation[Left].Z);
+	DA->ToeBoneGroundOffset = abs(R->RootLocation.Z - R->ToeLocation[Left].Z);
+}
+
+void UMarionetteDevelopmentComponent::DrawTrace(const bool bIsHit, const FHitResult& HitResult,const FVector& TraceStart,const FVector& TraceEnd) const
+{
+	DrawDebugLine(GetWorld(),TraceStart,TraceEnd,bIsHit ? FColor::Green : FColor::Red,false,-1.0f,0,2.0f);
+
+	if (bIsHit) DrawDebugPoint(GetWorld(),HitResult.Location,10.0f,FColor::Blue,false,-1.0f);
 }

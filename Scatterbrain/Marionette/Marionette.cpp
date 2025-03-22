@@ -82,9 +82,8 @@ void AMarionette::BeginPlay()
 	Narrative->SetOwner(this);
 	Effects->SetOwner(this);
 	Abilities->SetOwner(this);
-
-	//FTimerHandle TimerHandle;
-	//GetWorld()->GetTimerManager().SetTimer(TimerHandle, Development, &UMarionetteDevelopmentComponent::RewriteDataAsset, 5.0f, false);
+	
+	Rig->LoadLengthData();
 
 	// Setting up controller.
 	if (APlayerController* PlayerController = Cast<APlayerController>(Controller))
@@ -100,14 +99,15 @@ void AMarionette::BeginPlay()
 	Sight->SetPerson(Sight->bIsFirstPerson);
 }
 
-// Called every frame ("frame" = "moment")
 void AMarionette::Tick(const float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 	
 	TickDeltaTime = DeltaTime;
+
+	Rig->UpdateBoneData();
 	
-	//Physics->TickPhysics();
+	// Physics->TickManual();
 	
 	// Movement->ChoosePassiveMove();
 	// Movement->ExecutePassiveMove();

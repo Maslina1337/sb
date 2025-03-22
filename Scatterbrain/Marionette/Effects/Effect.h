@@ -11,7 +11,7 @@ public:
 	FEffectBase(AMarionette*);
 
 	void Deactivate(); // To force effect to end.
-	void Tick(); // To simple check if effect can tick and execute tick function.
+	void TickManual(); // To simple check if effect can tick and execute tick function.
 
 protected:
 	//// Child additions. ////
@@ -26,7 +26,7 @@ protected:
 	AMarionette* Owner;
 	bool bIsActive;
 	FTimerHandle TimerHandle;
-	float Duration; // Seconds. If 0 - the stun is infinite until it is forcibly ended.
+	float Duration; // Seconds. If 0 - the effect is infinite until it is forcibly ended.
 	// float TimeElapsed; // Seconds. Amount of time elapsed since activation.
 };
 

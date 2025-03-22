@@ -24,7 +24,7 @@ void UMarionetteEffectsComponent::TickActivatedEffects()
 	{
 		if (Effect)
 		{
-			Effect->Tick();	
+			Effect->TickManual();	
 		}
 	}
 }

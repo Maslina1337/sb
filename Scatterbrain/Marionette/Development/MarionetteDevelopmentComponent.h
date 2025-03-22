@@ -27,6 +27,8 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void RewriteDataAsset();
 
+	void DrawTrace(const bool bIsHit, const FHitResult& HitResult,const FVector& TraceStart,const FVector& TraceEnd) const;
+
 private:
 	UPROPERTY()
 	AMarionette* Owner;

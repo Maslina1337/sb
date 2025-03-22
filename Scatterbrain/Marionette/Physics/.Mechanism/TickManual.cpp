@@ -3,8 +3,9 @@
 #include "Scatterbrain/Marionette/Movement/PassiveMoves/Fall/PM_Fall.h"
 #include "Scatterbrain/Marionette/Rig/MarionetteRigComponent.h"
 #include "Scatterbrain/Marionette/Movement/MarionetteMovementComponent.h"
+#include "Scatterbrain/Marionette/Development/MarionetteDevelopmentComponent.h"
 
-void UMarionettePhysicsComponent::TickPhysics() {
+void UMarionettePhysicsComponent::TickManual() {
 
 	if (PhysicsIgnore) return;
 
@@ -13,56 +14,87 @@ void UMarionettePhysicsComponent::TickPhysics() {
 		States->CopyCurrentToPast();
 		return;
 	}
+
+			UE_LOG(LogTemp, Error, TEXT("Body State: %hhd"), States->GetBodyState())
 	
-	// Temp variables.
-	FVector TraceStart = FVector::ZeroVector;
-	FVector TraceEnd = FVector::ZeroVector;
+	// Setting Trace Params.
 	FCollisionQueryParams TraceParams = FCollisionQueryParams::DefaultQueryParam;
 	TraceParams.AddIgnoredActor(Owner);
-	bool bTempIsHit = false;
-	FHitResult TempHit = FHitResult();
-
+	
 	// Checking the surface under the toes.
 
-	TraceStart = Owner->Rig->PelvisLocation;
-	TraceEnd = TraceStart + Owner->Movement->PM_Fall->GetLandingDirection() *
+	FVector TraceStart = Owner->Rig->PelvisLocation;
+	FVector TraceEnd = TraceStart + Owner->Movement->PM_Fall->GetLandingDirection() *
 		(Owner->Rig->LegLengthTiptoes + Owner->Rig->ToeBoneGroundOffset - ToesFallColliderRadius + TraceError);
 	const FCollisionShape ToesFallCollider = FCollisionShape::MakeSphere(ToesFallColliderRadius);
 	const FQuat ToesFallColliderRotation = FQuat(1,0,0,0); // No rotation.
 	
+			UE_LOG(LogTemp, Error, TEXT("Trace Start: %s"), *TraceStart.ToString())
+			UE_LOG(LogTemp, Error, TEXT("Trace End: %s"), *TraceEnd.ToString())
+	
 	bIsToesHit = GetWorld()->SweepSingleByChannel(ToesHit, TraceStart, TraceEnd, ToesFallColliderRotation, ECC_Visibility, ToesFallCollider, TraceParams);
+
+			Owner->Development->DrawTrace(bIsToesHit, ToesHit, TraceStart, TraceEnd);
+
+			FString LogTempStr = bIsToesHit ? "Yes" : "No";
+			UE_LOG(LogTemp, Error, TEXT("Does toes hit: %s"), *LogTempStr)
 		
 	// Gravity (Z axis) update.
-		
-	GravitationalVelocity += (InertiaVelocity.GetSafeNormal().ProjectOnTo(GravitationalDirection) * InertiaVelocity);
+	
+	GravitationalVelocity += InertiaVelocity.ProjectOnTo(GravitationalDirection);
+
+			UE_LOG(LogTemp, Error, TEXT("Gravitational Vel: %s"), *GravitationalVelocity.ToString())
 
 	GravitationalShift = GravitationalVelocity * Owner->TickDeltaTime +
 		(GravitationalDirection * GravitationalAcceleration -
-		GravitationalVelocity.Size() * (GravitationalSlowdownIgnore ? 0 : GravitationalSlowdown)) *
+		GravitationalVelocity.Size() * (GravitationalSlowdownIgnore ? 0.f : GravitationalSlowdown)) *
 			pow(Owner->TickDeltaTime,2) / 2;
+
+	GravitationalVelocity += GravitationalDirection * GravitationalAcceleration * Owner->TickDeltaTime;
+
+			UE_LOG(LogTemp, Error, TEXT("Gravitational Vel 2: %s"), *GravitationalVelocity.ToString())
+
+			UE_LOG(LogTemp, Error, TEXT("Gravitational Shift: %s"), *GravitationalShift.ToString())
 
 	// Inertia (XY axes) update.
 			
 	InertiaVelocity = InertiaVelocity.ProjectOnToNormal(GravitationalDirection);
+
+			UE_LOG(LogTemp, Error, TEXT("Inertia Vel: %s"), *InertiaVelocity.ToString())
 	
 	InertiaShift = InertiaVelocity * Owner->TickDeltaTime -
 		InertiaVelocity * (InertiaSlowdownIgnore ? 0 : InertiaSlowdown) * pow(Owner->TickDeltaTime,2) / 2;
+
+			UE_LOG(LogTemp, Error, TEXT("Inertia Shift: %s"), *InertiaShift.ToString())
 
 	// Fall (All axes together) update.
 
 	FallShift = GravitationalShift + InertiaShift;
 	FallVelocity = FallShift / Owner->TickDeltaTime;
+
+			UE_LOG(LogTemp, Error, TEXT("Fall Vel: %s"), *FallVelocity.ToString())
+			UE_LOG(LogTemp, Error, TEXT("Fall Shift: %s"), *FallShift.ToString())
 		
 	// Trace with applying current fall shift.
-				
+	
 	TraceStart = ToesHit.TraceEnd;
 	TraceEnd = TraceStart + FallShift;
-		
-	bIsToesHit = GetWorld()->LineTraceSingleByChannel(ToesHit, TraceStart, TraceEnd, ECC_Pawn, TraceParams);
+
+			UE_LOG(LogTemp, Error, TEXT("Trace Start 2: %s"), *TraceStart.ToString())
+			UE_LOG(LogTemp, Error, TEXT("Trace End 2: %s"), *TraceEnd.ToString())
+	
+	bIsToesHit = GetWorld()->SweepSingleByChannel(ToesHit, TraceStart, TraceEnd, ToesFallColliderRotation, ECC_Visibility, ToesFallCollider, TraceParams);
+
+			LogTempStr = bIsToesHit ? "Yes" : "No";
+			UE_LOG(LogTemp, Error, TEXT("Does toes hit 2: %s"), *LogTempStr)
+
+			Owner->Development->DrawTrace(bIsToesHit, ToesHit, TraceStart, TraceEnd);
 
 	// Updating States.
 
 	States->StatesUpdate();
+	
+			UE_LOG(LogTemp, Error, TEXT("State 2: %hhd"), States->GetBodyState())
 
 	// Applying physics.
 
