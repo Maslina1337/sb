@@ -8,6 +8,7 @@
 // Passive moves
 UENUM(BlueprintType)
 enum class EPassiveMove : uint8 {
+	None,
 	Stand, // Stand in place.
 	Fall,
 	Surf,

@@ -1,7 +1,7 @@
 #include "../PM_Walk.h"
 #include "Scatterbrain/Marionette/Marionette.h"
 
-EWalkSide FPM_Walk::GetWalkSideByAngle()
+EWalkSide UPM_Walk::GetWalkSideByAngle()
 {
 	if (AngleVisionToMoveDirection > SideWalkAngleBegin &&
 		AngleVisionToMoveDirection < SideWalkAngleEnd) {

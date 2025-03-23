@@ -3,53 +3,60 @@
 #pragma once
 
 #include "Scatterbrain/Marionette/Marionette.h"
-#include "Scatterbrain/Marionette/Types/EMove.h"
 #include "Scatterbrain/Marionette/Movement/MarionetteMovementComponent.h"
+
+#include "CoreMinimal.h"
+#include "GameFramework/Pawn.h"
+#include "ActiveMove.generated.h"
+
+class AMarionette;
 
 // Not templated class that can be used as type for TArray to keep active moves.
 // And be able to execute Tick method from it.
-class FActiveMoveBase {
+UCLASS(MinimalAPI)
+class UActiveMoveBase : public UObject {
 public:
+
+	GENERATED_BODY()
 	
-	explicit FActiveMoveBase(AMarionette* Owner_);
-	virtual ~FActiveMoveBase();
+	explicit UActiveMoveBase();
+	virtual ~UActiveMoveBase() override;
+
+	void SetOwner(AMarionette* Owner_);
 	
-	void Tick();
+	void TickManual();
 	
 	bool IsActive() const { return bIsActive; }
 	bool IsActivePastTick() const { return bIsActivePastTick; }
 
-	EActiveMove GetEnumName() const { return EnumName; }
+	FString DebugName = "NoName";
 
 protected:
 	
-	virtual void Start() = 0; // Executed on first frame active.
-	virtual void Progress() = 0; // Executed every tick (starting on second frame active).
-	virtual void End() = 0; // Not executed automatically. Can be called manually in progress when it's done.
+	virtual void Start() {}; // Executed on first frame active.
+	virtual void Progress() {}; // Executed every tick (starting on second frame active).
+	virtual void End() {}; // Not executed automatically. Can be called manually in progress when it's done.
 
 protected:
-	
+
+	UPROPERTY()
 	AMarionette* Owner; // Marionette instance.
 
 	bool bIsActive;
 	bool bIsActivePastTick;
-
-	EActiveMove EnumName;
 };
 
 
 
 template <typename T>
-class TActiveMove : public FActiveMoveBase {
+class TActiveMove : public UActiveMoveBase {
 public:
 	
-	using FActiveMoveBase::FActiveMoveBase;
+	using UActiveMoveBase::UActiveMoveBase;
 
 	void Activate(T Params_) {
 		if (!IsParamsValid(Params_)) return;
 		if (bIsActive) return;
-	
-		Owner->Movement->AddActiveMove(EnumName);
 	
 		Params = Params_;
 		ParamsFree = Params_;

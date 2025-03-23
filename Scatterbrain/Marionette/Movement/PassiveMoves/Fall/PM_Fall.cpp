@@ -3,10 +3,8 @@
 #include "Scatterbrain/Marionette/Physics/MarionettePhysicsComponent.h"
 #include "Scatterbrain/Marionette/Movement/MarionetteMovementComponent.h"
 
-FPM_Fall::FPM_Fall(AMarionette* NewOwner)
+UPM_Fall::UPM_Fall()
 {
-	Owner = NewOwner;
-	
 	LandingReadyLeg[0] = false;
 	LandingReadyLeg[1] = false;
 
@@ -16,10 +14,14 @@ FPM_Fall::FPM_Fall(AMarionette* NewOwner)
 	LandingDirection = FVector::DownVector;
 
 	AnimLandingReady = 1.f;
+
+	DebugName = "PM_Fall";
 }
 
-void FPM_Fall::Tick()
+void UPM_Fall::Progress()
 {
+	UE_LOG(LogTemp, Error, TEXT("NEW PROGRESS"))
+	
 	Owner->Physics->ApplyAbsoluteAcceleration(Owner->Movement->MovementDirection * InertiaAcceleration);
 
 	// Setting the Landing direction. **TEMP WAY**

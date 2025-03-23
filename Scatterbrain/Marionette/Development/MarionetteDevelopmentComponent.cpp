@@ -72,7 +72,14 @@ void UMarionetteDevelopmentComponent::RewriteDataAssetRig(UDA_Marionette* DA) co
 
 void UMarionetteDevelopmentComponent::DrawTrace(const bool bIsHit, const FHitResult& HitResult,const FVector& TraceStart,const FVector& TraceEnd) const
 {
-	DrawDebugLine(GetWorld(),TraceStart,TraceEnd,bIsHit ? FColor::Green : FColor::Red,false,-1.0f,0,2.0f);
+	DrawDebugLine(GetWorld(),TraceStart,TraceEnd,bIsHit ? FColor::Green : FColor::Red,false,-1.f,0,2.0f);
 
-	if (bIsHit) DrawDebugPoint(GetWorld(),HitResult.Location,10.0f,FColor::Blue,false,-1.0f);
+	if (bIsHit) DrawDebugPoint(GetWorld(),HitResult.Location,10.0f,FColor::Blue,false,-1.f);
+}
+
+void UMarionetteDevelopmentComponent::DrawTrace(const bool bIsHit, const FHitResult& HitResult,const FVector& TraceStart,const FVector& TraceEnd, float LifeTime) const
+{
+	DrawDebugLine(GetWorld(),TraceStart,TraceEnd,bIsHit ? FColor::Green : FColor::Red,false,LifeTime,0,2.0f);
+
+	if (bIsHit) DrawDebugPoint(GetWorld(),HitResult.Location,10.0f,FColor::Blue,false,LifeTime);
 }

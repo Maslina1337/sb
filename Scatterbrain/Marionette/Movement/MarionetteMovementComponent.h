@@ -1,16 +1,16 @@
 #pragma once
 
-#include "../Types/EMove.h"
-
-// Moves forward declaration.
-class FPM_Walk;
-class FPM_Fall;
-class FAM_Step;
-
 #include "CoreMinimal.h"
 #include "Components/ActorComponent.h"
 #include "MarionetteMovementComponent.generated.h"
 
+// Moves forward declaration.
+class UPM_Walk;
+class UPM_Fall;
+class FAM_Step;
+
+class UPassiveMove;
+class UActiveMove;
 class AMarionette;
 
 UCLASS(ClassGroup=(Marionette), meta=(BlueprintSpawnableComponent))
@@ -72,45 +72,45 @@ public:
 	
 private:
 	UPROPERTY(EditAnywhere)
-	EPassiveMove CurrentPassiveMove;
+	UPassiveMove* CurrentPassiveMove;
 
 	UPROPERTY(EditAnywhere)
-	EPassiveMove PastPassiveMove;
+	UPassiveMove* PastPassiveMove;
 
 	UPROPERTY(EditAnywhere)
-	TArray<EActiveMove> CurrentActiveMoves;
+	TArray<UActiveMoveBase*> CurrentActiveMoves;
 	
 public:
 	// Passive moves.
-	FPM_Walk* PM_Walk;
-	FPM_Fall* PM_Fall;
+	UPM_Walk* PM_Walk;
+	UPM_Fall* PM_Fall;
 	
 	// Active moves.
 	FAM_Step* AM_Step;
 	
 	UFUNCTION(BlueprintCallable)
-	void SetPassiveMove(const EPassiveMove NewMove);
+	void SetPassiveMove(UPassiveMove* NewMove);
 
 	UFUNCTION(BlueprintCallable)
-	void AddActiveMove(const EActiveMove NewMove);
+	void AddActiveMove(UActiveMoveBase* NewMove);
 	
 	UFUNCTION(BlueprintCallable)
-	void DeleteActiveMove(const EActiveMove Move);
+	void DeleteActiveMove(UActiveMoveBase* Move);
 
 	UFUNCTION(BlueprintCallable)
-	int32 FindCurrentActiveMove(const EActiveMove Move) const; /* int32 'cause it can return -1.
+	int32 FindCurrentActiveMove(UActiveMoveBase* Move) const; /* int32 'cause it can return -1.
 	And int16 isn't supported in Blueprints. */
 	
 	/// Getters ///
 	UFUNCTION(BlueprintCallable)
-	EPassiveMove GetCurrentPassiveMove() const;
+	UPassiveMove* GetCurrentPassiveMove() const;
 
 	UFUNCTION(BlueprintCallable)
-	EPassiveMove GetPastPassiveMove() const;
+	UPassiveMove* GetPastPassiveMove() const;
 
 	UFUNCTION(BlueprintCallable)
-	EActiveMove GetCurrentActiveMoveByIndex(const uint8 Index) const;
+	UActiveMoveBase* GetCurrentActiveMoveByIndex(const uint8 Index) const;
 	
 	UFUNCTION(BlueprintCallable)
-	TArray<EActiveMove> GetCurrentActiveMoves();
+	TArray<UActiveMoveBase*> GetCurrentActiveMoves();
 };

@@ -1,10 +1,8 @@
 #include "AM_Step.h"
 #include "Scatterbrain/Marionette/Marionette.h"
 
-FAM_Step::FAM_Step(AMarionette* Owner_) : TActiveMove(Owner_)
+FAM_Step::FAM_Step() : TActiveMove()
 {
-	EnumName = EActiveMove::Step;
-	
 	ActorLocationOnStepStart = FVector::ZeroVector;
 	ActLocationOnStepStart = FVector::ZeroVector;
 
@@ -28,4 +26,6 @@ FAM_Step::FAM_Step(AMarionette* Owner_) : TActiveMove(Owner_)
 	RoundingArcToEndPathLength = 0.f;
 	RoundingTangentPointStart = FVector2D::ZeroVector;
 	RoundingTangentPointEnd = FVector2D::ZeroVector;
+
+	DebugName = "AM_Step";
 }

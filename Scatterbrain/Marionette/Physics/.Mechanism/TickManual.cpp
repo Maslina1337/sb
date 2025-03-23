@@ -2,8 +2,8 @@
 #include "../MarionettePhysicsComponent.h"
 #include "Scatterbrain/Marionette/Movement/PassiveMoves/Fall/PM_Fall.h"
 #include "Scatterbrain/Marionette/Rig/MarionetteRigComponent.h"
-#include "Scatterbrain/Marionette/Movement/MarionetteMovementComponent.h"
 #include "Scatterbrain/Marionette/Development/MarionetteDevelopmentComponent.h"
+#include "Scatterbrain/Marionette/Movement/MarionetteMovementComponent.h"
 
 void UMarionettePhysicsComponent::TickManual() {
 
@@ -28,6 +28,7 @@ void UMarionettePhysicsComponent::TickManual() {
 	const FQuat ToesFallColliderRotation = FQuat(1,0,0,0); // No rotation.
 	
 	bIsToesHit = GetWorld()->SweepSingleByChannel(ToesHit, TraceStart, TraceEnd, ToesFallColliderRotation, ECC_Visibility, ToesFallCollider, TraceParams);
+	Owner->Development->DrawTrace(bIsToesHit, ToesHit, TraceStart, TraceEnd);
 		
 	// Gravity (Z axis) update.
 	
@@ -58,6 +59,7 @@ void UMarionettePhysicsComponent::TickManual() {
 	TraceEnd = TraceStart + FallShift;
 	
 	bIsToesHit = GetWorld()->SweepSingleByChannel(ToesHit, TraceStart, TraceEnd, ToesFallColliderRotation, ECC_Visibility, ToesFallCollider, TraceParams);
+	Owner->Development->DrawTrace(bIsToesHit, ToesHit, TraceStart, TraceEnd);
 
 	// Updating States.
 
@@ -68,11 +70,14 @@ void UMarionettePhysicsComponent::TickManual() {
 	switch (States->GetBodyState())
 	{
 	case EBodyPhysState::Fall:
+		UE_LOG(LogTemp, Warning, TEXT("FALLING"))
 		Owner->SetActorLocation(Owner->GetActorLocation() + FallShift * 100.f);
 		break;
 	case EBodyPhysState::Surf: //// UNDONE ////
+		UE_LOG(LogTemp, Warning, TEXT("SURFING"))
 		break;
 	case EBodyPhysState::Stable:
+		UE_LOG(LogTemp, Warning, TEXT("STABELING"))
 		Owner->SetActorLocation(Owner->GetActorLocation() - ToesHit.TraceStart + ToesHit.Location);
 		LandingImpactVelocity = FallVelocity;
 		LandingLocation = ToesHit.Location;

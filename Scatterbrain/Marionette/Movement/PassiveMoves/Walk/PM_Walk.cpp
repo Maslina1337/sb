@@ -7,10 +7,8 @@
 
 using namespace LeftRight;
 
-FPM_Walk::FPM_Walk(AMarionette* NewOwner)
+UPM_Walk::UPM_Walk()
 {
-	Owner = NewOwner;
-
 	FootBox = FVector(30, 10, 10);
 	SideWalkAngleBegin = 60.f;
 	SideWalkAngleEnd = 120.f;
@@ -19,9 +17,11 @@ FPM_Walk::FPM_Walk(AMarionette* NewOwner)
 	IterationsCountOfLocationClarify = 1;
 	StepVelocityWalk = 70.f;
 	AngleVisionToMoveDirection = 0.f;
+
+	DebugName = "PM_Walk";
 }
 
-void FPM_Walk::Tick()
+void UPM_Walk::Progress()
 {
 	FAM_Step_Params AM_Step_Params;
 

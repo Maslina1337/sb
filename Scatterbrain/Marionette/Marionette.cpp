@@ -20,7 +20,8 @@
 #include "Narrative/MarionetteNarrativeComponent.h"
 #include "Effects/MarionetteEffectsComponent.h"
 #include "Abilities/MarionetteAbilitiesComponent.h"
-
+#include "Movement/ActiveMoves/ActiveMove.h"
+#include "Movement/PassiveMoves/PassiveMove.h"
 
 
 // Sets default values
@@ -107,11 +108,30 @@ void AMarionette::Tick(const float DeltaTime)
 
 	Rig->UpdateBoneData();
 	
-	// Physics->TickManual();
+	Physics->TickManual();
 	
-	// Movement->ChoosePassiveMove();
-	// Movement->ExecutePassiveMove();
-	// Movement->ExecuteActiveMoves();
+	Movement->ChoosePassiveMove();
+	//Movement->ExecutePassiveMove();
+	//Movement->ExecuteActiveMoves();
+
+	
+
+	// Debug display moves.
+	if (IsValid(Movement->GetCurrentPassiveMove())) { UE_LOG(LogTemp, Error, TEXT("MOVE IS VALID")) }
+	else { UE_LOG(LogTemp, Error, TEXT("MOVE ISN'T VALID")) }
+
+	//if (Movement->GetCurrentPassiveMove()->DebugName) { UE_LOG(LogTemp, Error, TEXT("MOVE IS VALID")) }
+	//else { UE_LOG(LogTemp, Error, TEXT("CANT'T ACCESS DEBUG NAME")) }
+	
+	//if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 0.1f, FColor::Red, TEXT("Passive Move: ") + Movement->GetCurrentPassiveMove()->DebugName);
+
+	// FString ActiveMovesDebugNames = TEXT("");
+	// for (uint8 i = 0; i < Movement->GetCurrentActiveMoves().Num(); i++)
+	// {
+	// 	ActiveMovesDebugNames += Movement->GetCurrentActiveMoves()[i]->DebugName;
+	// 	if (i+1 < Movement->GetCurrentActiveMoves().Num()) ActiveMovesDebugNames += TEXT(", ");
+	// }
+	// if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 0.1f, FColor::Red, TEXT("Active Move: ") + ActiveMovesDebugNames);
 }
 
 // Called to bind functionality to input

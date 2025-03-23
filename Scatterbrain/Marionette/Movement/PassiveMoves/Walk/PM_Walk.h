@@ -1,20 +1,20 @@
 #pragma once
 
 #include "Scatterbrain/Marionette/Types/EWalkSides.h"
+#include "Scatterbrain/Marionette/Movement/PassiveMoves/PassiveMove.h"
 
 class AMarionette;
 
-class FPM_Walk
+class UPM_Walk final : public UPassiveMove
 {
 public:
-	FPM_Walk(AMarionette*);
 	
-	void Tick();
+	UPM_Walk();
+	
 private:
-	AMarionette* Owner;
-
-	// Variables //
 	float AngleVisionToMoveDirection;
+
+	void virtual Progress() override;
 	
 	EWalkSide GetWalkSideByAngle();
 

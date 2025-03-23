@@ -1,24 +1,23 @@
 ﻿#pragma once
 
 #include "Scatterbrain/Marionette/Types/EWalkSides.h"
+#include "Scatterbrain/Marionette/Movement/PassiveMoves/PassiveMove.h"
 
 class AMarionette;
 
-class FPM_Fall
+class UPM_Fall final : public UPassiveMove
 {
 public:
-	FPM_Fall(AMarionette*);
-	
-	void Tick();
+	UPM_Fall();
 
 	// Getters //
 	FVector GetLandingDirection() const { return LandingDirection; }
 	float GetAnimLandingReady() const { return AnimLandingReady; }
 
 private:
-	AMarionette* Owner;
-
-	// Variables //
+	
+	void virtual Progress() override;
+	
 	bool LandingReadyLeg[2];
 	
 	float MaxInertiaVelocityAbleToIncrease;

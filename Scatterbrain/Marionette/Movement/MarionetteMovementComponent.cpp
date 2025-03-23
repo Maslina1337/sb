@@ -6,6 +6,9 @@
 #include "PassiveMoves/Fall/PM_Fall.h"
 #include "ActiveMoves/Step/AM_Step.h"
 
+#include "PassiveMoves/PassiveMove.h"
+#include "ActiveMoves/ActiveMove.h"
+
 // Sets default values for this component's properties
 UMarionetteMovementComponent::UMarionetteMovementComponent()
 {
@@ -14,96 +17,89 @@ UMarionetteMovementComponent::UMarionetteMovementComponent()
 	Owner = nullptr;
 	
 	// Passive moves.
-	PM_Walk = new FPM_Walk(Owner);
-	PM_Fall = new FPM_Fall(Owner);
+	PM_Walk = NewObject<UPM_Walk>();
+	PM_Fall = NewObject<UPM_Fall>();
 	
 	// Active moves.
-	AM_Step = new FAM_Step(Owner);
+	AM_Step = NewObject<FAM_Step>();
 	
-	CurrentPassiveMove = EPassiveMove::Fall;
-	PastPassiveMove = EPassiveMove::Fall;
+	CurrentPassiveMove = PM_Fall;
+	PastPassiveMove = PM_Fall;
 }
 
 void UMarionetteMovementComponent::SetOwner(AMarionette* OwnerClass)
 {
 	Owner = OwnerClass;
+
+	PM_Walk->SetOwner(Owner);
+	PM_Fall->SetOwner(Owner);
+	
+	AM_Step->SetOwner(Owner);
 }
 
-void UMarionetteMovementComponent::SetPassiveMove(const EPassiveMove NewMove)
+void UMarionetteMovementComponent::SetPassiveMove(UPassiveMove* NewMove)
 {
 	PastPassiveMove = CurrentPassiveMove;
 	CurrentPassiveMove = NewMove;
 }
 
-void UMarionetteMovementComponent::AddActiveMove(const EActiveMove NewMove)
+void UMarionetteMovementComponent::AddActiveMove(UActiveMoveBase* NewMove)
 {
 	// If this Move is already in array it won't be added.
 	for (int8 i = 0; i < CurrentActiveMoves.Num(); i++)
 	{
-		if (CurrentActiveMoves[i] == NewMove)
-		{
-			return;
-		}
+		if (CurrentActiveMoves[i] == NewMove) return;
 	}
 	
 	CurrentActiveMoves.Add(NewMove);
 }
 
-void UMarionetteMovementComponent::DeleteActiveMove(const EActiveMove Move)
+void UMarionetteMovementComponent::DeleteActiveMove(UActiveMoveBase* Move)
 {
 	int8 Index = -1;
 	for (int8 i = 0; i < CurrentActiveMoves.Num(); i++)
 	{
-		if (CurrentActiveMoves[i] == Move)
-		{
-			Index = i;
-		}
+		if (CurrentActiveMoves[i] == Move) Index = i;
 	}
 
 	// If nothing changing we don't need to change past active move.
-	if (Index == -1)
-	{
-		return;
-	}
+	if (Index == -1) return;
 	
 	CurrentActiveMoves.RemoveAt(Index);
 }
 
-int32 UMarionetteMovementComponent::FindCurrentActiveMove(const EActiveMove Move) const
+int32 UMarionetteMovementComponent::FindCurrentActiveMove(UActiveMoveBase* Move) const
 {
 	int16 Index = -1;
 	for (uint8 i = 0; i < CurrentActiveMoves.Num(); i++)
 	{
-		if (CurrentActiveMoves[i] == Move)
-		{
-			Index = i;
-		}
+		if (CurrentActiveMoves[i] == Move) Index = i;
 	}
 	return Index;
 }
 
 /// Getters ///
-EPassiveMove UMarionetteMovementComponent::GetCurrentPassiveMove() const
+UPassiveMove* UMarionetteMovementComponent::GetCurrentPassiveMove() const
 {
 	return CurrentPassiveMove;
 }
 
-EPassiveMove UMarionetteMovementComponent::GetPastPassiveMove() const
+UPassiveMove* UMarionetteMovementComponent::GetPastPassiveMove() const
 {
 	return PastPassiveMove;
 };
 
-EActiveMove UMarionetteMovementComponent::GetCurrentActiveMoveByIndex(const uint8 Index) const
+UActiveMoveBase* UMarionetteMovementComponent::GetCurrentActiveMoveByIndex(const uint8 Index) const
 {
 	if (Index <= CurrentActiveMoves.Num() - 1)
 	{
 		return CurrentActiveMoves[Index];
 	}
-	
-	return EActiveMove::None;
+
+	return nullptr;
 }
 
-TArray<EActiveMove> UMarionetteMovementComponent::GetCurrentActiveMoves()
+TArray<UActiveMoveBase*> UMarionetteMovementComponent::GetCurrentActiveMoves()
 {
 	return CurrentActiveMoves;
 };

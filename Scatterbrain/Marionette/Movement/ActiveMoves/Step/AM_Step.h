@@ -10,7 +10,7 @@ class FAM_Step final : public TActiveMove<FAM_Step_Params>
 {
 public:
 	
-	FAM_Step(AMarionette* Owner_);
+	FAM_Step();
 	
 private:
 	

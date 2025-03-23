@@ -28,6 +28,7 @@ public:
 	void RewriteDataAsset();
 
 	void DrawTrace(const bool bIsHit, const FHitResult& HitResult,const FVector& TraceStart,const FVector& TraceEnd) const;
+	void DrawTrace(const bool bIsHit, const FHitResult& HitResult,const FVector& TraceStart,const FVector& TraceEnd, float LifeTime) const;
 
 private:
 	UPROPERTY()
