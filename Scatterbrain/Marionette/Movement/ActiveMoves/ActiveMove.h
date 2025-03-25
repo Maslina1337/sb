@@ -5,24 +5,17 @@
 #include "Scatterbrain/Marionette/Marionette.h"
 #include "Scatterbrain/Marionette/Movement/MarionetteMovementComponent.h"
 
-#include "CoreMinimal.h"
-#include "GameFramework/Pawn.h"
-#include "ActiveMove.generated.h"
-
 class AMarionette;
 
 // Not templated class that can be used as type for TArray to keep active moves.
 // And be able to execute Tick method from it.
-UCLASS(MinimalAPI)
-class UActiveMoveBase : public UObject {
+class FActiveMoveBase{
 public:
-
-	GENERATED_BODY()
 	
-	explicit UActiveMoveBase();
-	virtual ~UActiveMoveBase() override;
+	explicit FActiveMoveBase();
+	virtual ~FActiveMoveBase();
 
-	void SetOwner(AMarionette* Owner_);
+	virtual void SetOwner(AMarionette* Owner_);
 	
 	void TickManual();
 	
@@ -33,13 +26,16 @@ public:
 
 protected:
 	
-	virtual void Start() {}; // Executed on first frame active.
-	virtual void Progress() {}; // Executed every tick (starting on second frame active).
-	virtual void End() {}; // Not executed automatically. Can be called manually in progress when it's done.
+	virtual void Start() = 0; // Executed on first frame active.
+	virtual void Progress() = 0; // Executed every tick (starting on second frame active).
+	virtual void End() = 0; // Not executed automatically. Can be called manually in progress when it's done.
+
+	// Called in constructor, so you should use IT as a constructor for non-constants.
+	// Also, can be called manually to reset variables to default values.
+	virtual void Reset() = 0;
 
 protected:
 
-	UPROPERTY()
 	AMarionette* Owner; // Marionette instance.
 
 	bool bIsActive;
@@ -49,10 +45,10 @@ protected:
 
 
 template <typename T>
-class TActiveMove : public UActiveMoveBase {
+class TActiveMove : public FActiveMoveBase {
 public:
 	
-	using UActiveMoveBase::UActiveMoveBase;
+	using FActiveMoveBase::FActiveMoveBase;
 
 	void Activate(T Params_) {
 		if (!IsParamsValid(Params_)) return;

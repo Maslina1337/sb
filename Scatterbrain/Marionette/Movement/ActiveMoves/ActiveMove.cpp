@@ -1,23 +1,23 @@
 ﻿#include "ActiveMove.h"
 
-UActiveMoveBase::UActiveMoveBase()
+FActiveMoveBase::FActiveMoveBase()
 {
 	Owner = nullptr;
 	bIsActive = false;
 	bIsActivePastTick = false;
 }
 
-UActiveMoveBase::~UActiveMoveBase() {}
+FActiveMoveBase::~FActiveMoveBase() {}
 
-void UActiveMoveBase::SetOwner(AMarionette* Owner_)
+void FActiveMoveBase::SetOwner(AMarionette* Owner_)
 {
 	Owner = Owner_;
 }
 
-void UActiveMoveBase::TickManual()
+void FActiveMoveBase::TickManual()
 {
 	if (bIsActivePastTick) Progress();
-	else Start();
+	else { Reset(); Start(); }
 	
 	bIsActivePastTick = true;
 }

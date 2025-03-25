@@ -13,8 +13,8 @@ private:
 	
 	AMarionette* Owner;
 	
-	EBodyPhysState BodyState;
-	EBodyPhysState PastBodyState;
+	EPhysicState BodyState;
+	EPhysicState PastBodyState;
 	bool bIsStableMoment;
 	bool bIsUnstableMoment;
 
@@ -37,8 +37,8 @@ public:
 
 	//// Getters. ////
 	
-	EBodyPhysState GetBodyState() const { return BodyState; };
-	EBodyPhysState GetPastBodyState() const { return PastBodyState; };
+	EPhysicState GetBodyState() const { return BodyState; };
+	EPhysicState GetPastBodyState() const { return PastBodyState; };
 	bool GetIsLandingMoment() const { return bIsStableMoment; };
 	bool GetIsUnstableMoment() const { return bIsUnstableMoment; };
 };

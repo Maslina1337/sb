@@ -19,6 +19,8 @@ void UMarionetteRigComponent::UpdateBoneData()
 	FootLocation[Right] = SkeletalMeshComponent->GetSocketLocation("foot_rSocket");
 	ToeLocation[Left] = SkeletalMeshComponent->GetSocketLocation("ball_lSocket");
 	ToeLocation[Right] = SkeletalMeshComponent->GetSocketLocation("ball_rSocket");
+
+	UE_LOG(LogTemp, Error, TEXT("Head Location: %s"), *HeadLocation.ToString()) // DEBUG
 	
 	// Rotations
 	

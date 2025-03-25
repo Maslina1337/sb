@@ -23,6 +23,7 @@ UMarionetteRigComponent::UMarionetteRigComponent()
 	ToeBoneGroundOffset = 0.0f;
 	LegLengthTiptoes = 0.0f;
 	PelvisHitDistance = 5.0f;
+	TiptoesAngle = 45.f;
 
 	LEFT_RIGHT_INIT(LegRootLocation, FVector::ZeroVector);
 	LEFT_RIGHT_INIT(LegRootRotation, FRotator::ZeroRotator);
@@ -34,6 +35,8 @@ UMarionetteRigComponent::UMarionetteRigComponent()
 	LEFT_RIGHT_INIT(ToeRotation, FRotator::ZeroRotator);
 	LEFT_RIGHT_INIT(FootGoalLocation, FVector::ZeroVector);
 	LEFT_RIGHT_INIT(FootGoalRotation, FRotator::ZeroRotator);
+	LEFT_RIGHT_INIT(ToeGoalLocation, FVector::ZeroVector);
+	LEFT_RIGHT_INIT(ToeGoalRotation, FRotator::ZeroRotator);
 	LEFT_RIGHT_INIT(FootAlphaIK, 0.f);
 }
 

@@ -5,12 +5,12 @@
 #include "MarionetteMovementComponent.generated.h"
 
 // Moves forward declaration.
-class UPM_Walk;
-class UPM_Fall;
+class FPM_Walk;
+class FPM_Fall;
 class FAM_Step;
 
-class UPassiveMove;
-class UActiveMove;
+class FPassiveMove;
+class FActiveMove;
 class AMarionette;
 
 UCLASS(ClassGroup=(Marionette), meta=(BlueprintSpawnableComponent))
@@ -71,46 +71,28 @@ public:
 	FVector MovementDirectionXYZ;
 	
 private:
-	UPROPERTY(EditAnywhere)
-	UPassiveMove* CurrentPassiveMove;
-
-	UPROPERTY(EditAnywhere)
-	UPassiveMove* PastPassiveMove;
-
-	UPROPERTY(EditAnywhere)
-	TArray<UActiveMoveBase*> CurrentActiveMoves;
+	FPassiveMove* CurrentPassiveMove;
+	FPassiveMove* PastPassiveMove;
+	
+	TArray<FActiveMove*> CurrentActiveMoves; // REPLACE
 	
 public:
 	// Passive moves.
-	UPM_Walk* PM_Walk;
-	UPM_Fall* PM_Fall;
+	FPM_Walk* PM_Walk;
+	FPM_Fall* PM_Fall;
 	
 	// Active moves.
 	FAM_Step* AM_Step;
-	
-	UFUNCTION(BlueprintCallable)
-	void SetPassiveMove(UPassiveMove* NewMove);
 
-	UFUNCTION(BlueprintCallable)
-	void AddActiveMove(UActiveMoveBase* NewMove);
-	
-	UFUNCTION(BlueprintCallable)
-	void DeleteActiveMove(UActiveMoveBase* Move);
-
-	UFUNCTION(BlueprintCallable)
-	int32 FindCurrentActiveMove(UActiveMoveBase* Move) const; /* int32 'cause it can return -1.
+	void SetPassiveMove(FPassiveMove* NewMove);
+	void AddActiveMove(FActiveMove* NewMove);
+	void DeleteActiveMove(FActiveMove* Move);
+	int32 FindCurrentActiveMove(FActiveMove* Move) const; /* int32 'cause it can return -1.
 	And int16 isn't supported in Blueprints. */
 	
 	/// Getters ///
-	UFUNCTION(BlueprintCallable)
-	UPassiveMove* GetCurrentPassiveMove() const;
-
-	UFUNCTION(BlueprintCallable)
-	UPassiveMove* GetPastPassiveMove() const;
-
-	UFUNCTION(BlueprintCallable)
-	UActiveMoveBase* GetCurrentActiveMoveByIndex(const uint8 Index) const;
-	
-	UFUNCTION(BlueprintCallable)
-	TArray<UActiveMoveBase*> GetCurrentActiveMoves();
+	FPassiveMove* GetCurrentPassiveMove() const;
+	FPassiveMove* GetPastPassiveMove() const;
+	FActiveMove* GetCurrentActiveMoveByIndex(const uint8 Index) const;
+	TArray<FActiveMove*> GetCurrentActiveMoves();
 };

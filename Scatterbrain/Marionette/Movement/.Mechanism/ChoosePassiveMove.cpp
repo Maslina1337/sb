@@ -9,13 +9,13 @@ void UMarionetteMovementComponent::ChoosePassiveMove()
 {
     switch (Owner->Physics->States->GetBodyState())
     {
-        case EBodyPhysState::Fall:
+        case EPhysicState::Fall:
             SetPassiveMove(PM_Fall);
             break;
-        case EBodyPhysState::Surf:
+        case EPhysicState::Surf:
             // SetPassiveMove(PM_Surf);
             break;
-        case EBodyPhysState::Stable:
+        case EPhysicState::Stable:
             if (MovementDirection.Length() == 0) { /*SetPassiveMove(PM_Stand)*/ }
             else SetPassiveMove(PM_Walk);
             break;

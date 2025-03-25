@@ -1,14 +1,14 @@
 ﻿#pragma once
 
-#include "Scatterbrain/Marionette/Types/EWalkSides.h"
 #include "Scatterbrain/Marionette/Movement/PassiveMoves/PassiveMove.h"
 
 class AMarionette;
 
-class UPM_Fall final : public UPassiveMove
+class FPM_Fall final : public FPassiveMove
 {
 public:
-	UPM_Fall();
+	
+	FPM_Fall();
 
 	// Getters //
 	FVector GetLandingDirection() const { return LandingDirection; }

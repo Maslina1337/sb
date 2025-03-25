@@ -4,4 +4,10 @@
 #include "EPhysStates.generated.h"
 
 UENUM(BlueprintType)
-enum class EBodyPhysState : uint8 { Stable = 0, Fall = 1, Surf = 2 };
+enum class EPhysicState : uint8
+{
+	Grounded = 0,
+	Falling = 1,
+	Sliding = 2,
+	Swimming = 3,
+};

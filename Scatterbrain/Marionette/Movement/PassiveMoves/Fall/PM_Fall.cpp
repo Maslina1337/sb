@@ -3,7 +3,7 @@
 #include "Scatterbrain/Marionette/Physics/MarionettePhysicsComponent.h"
 #include "Scatterbrain/Marionette/Movement/MarionetteMovementComponent.h"
 
-UPM_Fall::UPM_Fall()
+FPM_Fall::FPM_Fall()
 {
 	LandingReadyLeg[0] = false;
 	LandingReadyLeg[1] = false;
@@ -18,7 +18,7 @@ UPM_Fall::UPM_Fall()
 	DebugName = "PM_Fall";
 }
 
-void UPM_Fall::Progress()
+void FPM_Fall::Progress()
 {
 	UE_LOG(LogTemp, Error, TEXT("NEW PROGRESS"))
 	

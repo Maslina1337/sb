@@ -6,8 +6,8 @@ IStates::IStates(AMarionette* OwnerClass)
 {
 	Owner = OwnerClass;
 	
-	BodyState = EBodyPhysState::Fall;
-	PastBodyState = EBodyPhysState::Fall;
+	BodyState = EPhysicState::Fall;
+	PastBodyState = EPhysicState::Fall;
 	bIsStableMoment = false;
 	bIsUnstableMoment = false;
 	bIsBodySurfing = false;
@@ -20,10 +20,10 @@ void IStates::StatesUpdate()
 
 	if (Owner->Physics->bIsToesHit)
 	{
-		if (SurfCheck(Owner->Physics->ToesHit).IsSurf) BodyState = EBodyPhysState::Surf;
-		else BodyState = EBodyPhysState::Stable;
+		if (SurfCheck(Owner->Physics->ToesHit).IsSurf) BodyState = EPhysicState::Surf;
+		else BodyState = EPhysicState::Stable;
 	}
-	else BodyState = EBodyPhysState::Fall;
+	else BodyState = EPhysicState::Fall;
 }
 
 void IStates::CopyCurrentToPast()
@@ -33,8 +33,8 @@ void IStates::CopyCurrentToPast()
 
 void IStates::UpdateMoments()
 {
-	bIsStableMoment = (BodyState == EBodyPhysState::Stable && PastBodyState != EBodyPhysState::Stable);
-	bIsUnstableMoment = (BodyState != EBodyPhysState::Stable && PastBodyState == EBodyPhysState::Stable);
+	bIsStableMoment = (BodyState == EPhysicState::Stable && PastBodyState != EPhysicState::Stable);
+	bIsUnstableMoment = (BodyState != EPhysicState::Stable && PastBodyState == EPhysicState::Stable);
 }
 
 FSurfCheckReturn IStates::SurfCheck(const FHitResult& Hit) const {

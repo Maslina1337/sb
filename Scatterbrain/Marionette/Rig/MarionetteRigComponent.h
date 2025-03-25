@@ -92,6 +92,14 @@ public:
 	/* Foot Ik goal rotation. */
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
 	TArray<FRotator> FootGoalRotation;
+	
+	/* Toe Ik goal location. */;
+	UPROPERTY(BlueprintReadWrite, EditAnywhere)
+	TArray<FVector> ToeGoalLocation;
+	
+	/* Toe Ik goal rotation. */
+	UPROPERTY(BlueprintReadWrite, EditAnywhere)
+	TArray<FRotator> ToeGoalRotation;
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
 	TArray<float> FootAlphaIK;
@@ -102,30 +110,35 @@ public:
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
 	FRotator PelvisRotation;
 
+	// [units]
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
 	float RootKneeLength;
 
+	// [units]
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
 	float KneeFootLength;
 
+	// [units]
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
 	float FootToeLength;
 
-	/* RootKneeLength + KneeFootLength */
+	/* RootKneeLength + KneeFootLength [units] */
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
 	float LegLength;
 
-	/* RootKneeLength + KneeFootLength + FootToeLength */
+	/* RootKneeLength + KneeFootLength + FootToeLength [units] */
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
 	float LegLengthTiptoes;
 
-	/* Min distance between Leg Root and Foot. */
+	/* Min distance between Leg Root and Foot. [units] */
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
 	float RootFootMinLength;
 
+	// [units]
 	UPROPERTY(BlueprintReadOnly, EditAnywhere)
 	float FootBoneGroundOffset;
 
+	// [units]
 	UPROPERTY(BlueprintReadOnly, EditAnywhere)
 	float ToeBoneGroundOffset;
 
@@ -134,4 +147,8 @@ public:
 	/* Distance from pelvis bone the surface of a chair when marionette is sitting or laying. [m] */
 	UPROPERTY(BlueprintReadOnly, EditAnywhere)
 	float PelvisHitDistance;
+
+	/* The angle at which the foot bone should rotate when standing on the toes. (relative to T-pose) [deg] */
+	UPROPERTY(BlueprintReadOnly, EditAnywhere)
+	float TiptoesAngle;
 };

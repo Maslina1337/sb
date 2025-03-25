@@ -9,9 +9,8 @@
 UENUM(BlueprintType)
 enum class EPassiveMove : uint8 {
 	None,
-	Stand, // Stand in place.
 	Fall,
-	Surf,
+	Slide,
 	Walk,
 	Run,
 };
@@ -21,6 +20,6 @@ UENUM(BlueprintType)
 enum class EActiveMove : uint8 {
 	None,
 	Step,
-	Landing,
-	Punch, // TEST //
+	Land,
+	Punch,
 };

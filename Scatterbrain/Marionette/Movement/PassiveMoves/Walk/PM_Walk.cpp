@@ -7,7 +7,7 @@
 
 using namespace LeftRight;
 
-UPM_Walk::UPM_Walk()
+FPM_Walk::FPM_Walk()
 {
 	FootBox = FVector(30, 10, 10);
 	SideWalkAngleBegin = 60.f;
@@ -21,37 +21,34 @@ UPM_Walk::UPM_Walk()
 	DebugName = "PM_Walk";
 }
 
-void UPM_Walk::Progress()
+void FPM_Walk::Progress()
 {
 	FAM_Step_Params AM_Step_Params;
 
 	//// Leg choose ////
 	
-	if (Owner->Physics->States->GetBodyState() == EBodyPhysState::Stable)
-	{
-		FVector PointBetweenFoots =
+	FVector PointBetweenFoots =
 			(Owner->Rig->FootGoalLocation[Left] - Owner->Rig->FootGoalLocation[Right]) / 2 + Owner->Rig->FootGoalLocation[Right];
 		
-		PointBetweenFoots.Z = 0;
+	PointBetweenFoots.Z = 0;
 
-		const FVector MovementDirection = Owner->Movement->MovementDirection;
+	const FVector MovementDirection = Owner->Movement->MovementDirection;
 
-		TArray<float> FootAngle;
-		FootAngle.Init(0, 2);
+	TArray<float> FootAngle;
+	FootAngle.Init(0, 2);
 		
-		FootAngle[Left] = AngleBetweenTwoVectors(Owner->Rig->FootGoalLocation[Left] - PointBetweenFoots,MovementDirection);
-		FootAngle[Right] = AngleBetweenTwoVectors(Owner->Rig->FootGoalLocation[Right] - PointBetweenFoots, MovementDirection);
+	FootAngle[Left] = AngleBetweenTwoVectors(Owner->Rig->FootGoalLocation[Left] - PointBetweenFoots,MovementDirection);
+	FootAngle[Right] = AngleBetweenTwoVectors(Owner->Rig->FootGoalLocation[Right] - PointBetweenFoots, MovementDirection);
 
-		if (FootAngle[Left] > FootAngle[Right])
-		{
-			AM_Step_Params.Act = Right;
-			AM_Step_Params.Sup = Left;
-		}
-		else
-		{
-			AM_Step_Params.Act = Left;
-			AM_Step_Params.Sup = Right;
-		}
+	if (FootAngle[Left] > FootAngle[Right])
+	{
+		AM_Step_Params.Act = Right;
+		AM_Step_Params.Sup = Left;
+	}
+	else
+	{
+		AM_Step_Params.Act = Left;
+		AM_Step_Params.Sup = Right;
 	}
 
 	//// Finding target point. ////

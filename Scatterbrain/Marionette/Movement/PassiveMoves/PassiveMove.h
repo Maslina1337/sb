@@ -4,27 +4,24 @@
 
 #include "Scatterbrain/Marionette/Marionette.h"
 
-#include "CoreMinimal.h"
-#include "GameFramework/Pawn.h"
-#include "PassiveMove.generated.h"
-
 class AMarionette;
 
-UCLASS(MinimalAPI)
-class UPassiveMove : public UObject {
+class FPassiveMove {
 public:
-
-	GENERATED_BODY()
 	
-	explicit UPassiveMove();
-	virtual ~UPassiveMove() override;
+	explicit FPassiveMove();
+	virtual ~FPassiveMove();
 
-	void SetOwner(AMarionette* Owner_);
+	virtual void SetOwner(AMarionette* Owner_);
 	
 	virtual void TickManual();
 	
 	bool IsActive() const { return bIsActive; }
 	bool IsActivePastTick() const { return bIsActivePastTick; }
+
+	// Called in constructor, so you should use IT as a constructor.
+	// Also, can be called manually to reset variables to default values.
+	virtual void Reset() = 0;
 
 	void Activate() {
 		if (bIsActive) return;
@@ -36,8 +33,7 @@ public:
 	FString DebugName = "NoName";
 
 protected:
-
-	UPROPERTY()
+	
 	AMarionette* Owner; // Marionette instance.
 
 	bool bIsActive;

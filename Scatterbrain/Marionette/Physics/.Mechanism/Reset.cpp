@@ -1,7 +1,7 @@
 ﻿#include "../MarionettePhysicsComponent.h"
 
 void UMarionettePhysicsComponent::Reset() {
-	if (States->GetBodyState() == EBodyPhysState::Stable)
+	if (States->GetBodyState() == EPhysicState::Stable)
 		{
 			GravitationalShift = FVector::ZeroVector;
 			GravitationalVelocity = FVector::ZeroVector;

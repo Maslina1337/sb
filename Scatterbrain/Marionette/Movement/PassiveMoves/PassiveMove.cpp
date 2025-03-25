@@ -1,20 +1,20 @@
 ﻿#include "PassiveMove.h"
 
-UPassiveMove::UPassiveMove()
+FPassiveMove::FPassiveMove()
 {
 	Owner = nullptr;
 	bIsActive = false;
 	bIsActivePastTick = false;
 }
 
-UPassiveMove::~UPassiveMove() {}
+FPassiveMove::~FPassiveMove() {}
 
-void UPassiveMove::SetOwner(AMarionette* Owner_)
+void FPassiveMove::SetOwner(AMarionette* Owner_)
 {
 	Owner = Owner_;
 }
 
-void UPassiveMove::TickManual()
+void FPassiveMove::TickManual()
 {
 	bIsActivePastTick = true;
 	Progress();

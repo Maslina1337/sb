@@ -7,4 +7,4 @@
 // enum class EAbilityMethodOfApplication : uint8 { Passive, Click, Hold };
 //
 // UENUM(BlueprintType)
-// enum class EBodyPhysState : uint8 { LandingLeft, LandingRight, Fall, Surf };
+// enum class EPhysicState : uint8 { LandingLeft, LandingRight, Fall, Surf };

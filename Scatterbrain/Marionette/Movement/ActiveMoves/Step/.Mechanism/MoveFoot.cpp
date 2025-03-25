@@ -7,50 +7,57 @@ struct FTwoPoints2D
 {
 	FVector2D Highest;
 	FVector2D Lowest;
-	FVector2D Left;
-	FVector2D Right;
+	FVector2D Leftest;
+	FVector2D Rightest;
 };
 
 void FAM_Step::MoveFoot()
 {
 	FVector NewFootLocation;
-	
-	FTwoPoints2D ExtremePoint;
-	
-	ExtremePoint.Highest.X = FootTrajectoryInverse(MaxStepHeight / (MaxStepHeight + FootTrajectoryLimit)) *
-		(StepHeight > 0 ? 1 : -1) + 0.5f;
-	ExtremePoint.Highest.Y = FootTrajectory(ExtremePoint.Highest.X);
 
-	ExtremePoint.Lowest.Y = 1 - (StepHeight / MaxStepHeight) * ExtremePoint.Highest.Y;
-	ExtremePoint.Lowest.X = 0.5f + FootTrajectoryInverse(ExtremePoint.Lowest.Y) * (StepHeight > 0 ? -1 : 1);
-
-	if (StepHeight > 0)
+	if (StepVerticalDirection != EStepVerticalDirection::Straight)
 	{
-		ExtremePoint.Left.X = ExtremePoint.Lowest.X;
-		ExtremePoint.Left.Y = ExtremePoint.Lowest.Y;
-		// ExtremePoint.Right.X = ExtremePoint.Highest.X;
-		// ExtremePoint.Right.Y = ExtremePoint.Highest.Y;
+		// FTwoPoints2D ExtremePoint;
+		//
+		// ExtremePoint.Highest.X = FootTrajectoryInverse(MaxStepHeight / (MaxStepHeight + FootTrajectoryLimit)) *
+		// 	(StepHeight > 0 ? 1 : -1) + 0.5f;
+		// ExtremePoint.Highest.Y = FootTrajectory(ExtremePoint.Highest.X);
+		//
+		// ExtremePoint.Lowest.Y = 1 - (StepHeight / MaxStepHeight) * ExtremePoint.Highest.Y;
+		// ExtremePoint.Lowest.X = 0.5f + FootTrajectoryInverse(ExtremePoint.Lowest.Y) * (StepHeight > 0 ? -1 : 1);
+		//
+		// if (StepHeight > 0)
+		// {
+		// 	ExtremePoint.Leftest.X = ExtremePoint.Lowest.X;
+		// 	ExtremePoint.Leftest.Y = ExtremePoint.Lowest.Y;
+		// }
+		// else
+		// {
+		// 	ExtremePoint.Leftest.X = ExtremePoint.Highest.X;
+		// 	ExtremePoint.Leftest.Y = ExtremePoint.Highest.Y;
+		// }
+		//
+		// FVector2D CurrentPoint;
+		// CurrentPoint.X = StepPercent * abs(ExtremePoint.Highest.X - ExtremePoint.Lowest.X) + ExtremePoint.Leftest.X;
+		// CurrentPoint.Y = FootTrajectory(CurrentPoint.X);
+		//
+		// // Intermediate value. (Z only)
+		// NewFootLocation.Z = (CurrentPoint.Y - ExtremePoint.Leftest.Y) /
+		// 	abs(ExtremePoint.Highest.Y - ExtremePoint.Lowest.Y) * StepLength;
 	}
-	else
+
+	if (StepStage == EStepStage::GoTiptoe)
 	{
-		ExtremePoint.Left.X = ExtremePoint.Highest.X;
-		ExtremePoint.Left.Y = ExtremePoint.Highest.Y;
-		// ExtremePoint.Right.X = ExtremePoint.Lowest.X;
-		// ExtremePoint.Right.Y = ExtremePoint.Lowest.Y;
+		
+		float FramePathTravelled = Params.StepVelocity * 100.f * Owner->TickDeltaTime;
+
+		if (FramePathTravelled > )
 	}
 
-	FVector2D CurrentPoint;
-	CurrentPoint.X = StepPercent * abs(ExtremePoint.Highest.X - ExtremePoint.Lowest.X) + ExtremePoint.Left.X;
-	CurrentPoint.Y = FootTrajectory(CurrentPoint.X);
-
-	// Intermediate value. (Z only)
-	NewFootLocation.Z = (CurrentPoint.Y - ExtremePoint.Left.Y) /
-		abs(ExtremePoint.Highest.Y - ExtremePoint.Lowest.Y) * StepLength;
-
-	FVector2D RoundingShift;
+	FVector2D RoundingShift = FVector2D::ZeroVector;
 	
 	// Need Rounding?
-	if (NeedRounding)
+	if (bNeedRounding)
 	{
 		const float CurrentPathTraveled = StepPercent * RoundingFullPathLength;
 		if (CurrentPathTraveled - RoundingStartToArcPathLength > 0)
@@ -71,7 +78,7 @@ void FAM_Step::MoveFoot()
 				// Rounding on arc.
 				const float SegmentTraveledPercent = CurrentPathTraveled - RoundingStartToArcPathLength;
 
-				GetPointOnArc(SupRoundingCircle,
+				GetPointOnArc(RoundingCircle,
 					RoundingTangentPointStart,
 					RoundingTangentPointEnd,
 					SegmentTraveledPercent);
@@ -82,7 +89,7 @@ void FAM_Step::MoveFoot()
 			// Rounding from start to arc.
 			const float SegmentTraveledPercent = CurrentPathTraveled;
 
-			const FVector2D SegmentVector = RoundingTangentPointStart - Vector3To2(ActLocationOnStepStart);
+			const FVector2D SegmentVector = RoundingTangentPointStart - Vector3To2(ActLocationOnStart);
 
 			RoundingShift = SegmentVector.GetSafeNormal() * SegmentTraveledPercent;
 		}

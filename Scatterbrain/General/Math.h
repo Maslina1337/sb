@@ -39,6 +39,27 @@ struct FCircle2D
 	float Radius;
 };
 
+struct FCircle3D
+{
+	FCircle3D()
+	{
+		Center = FVector::ZeroVector;
+		Radius = 0.0f;
+		Normal = FVector::ZeroVector;
+	}
+	
+	FCircle3D(const FVector& Center_, float Radius_, const FVector& Normal_)
+	{
+		Center = Center_;
+		Radius = Radius_;
+		Normal = Normal_;
+	}
+	
+	FVector Center;
+	float Radius;
+	FVector Normal;
+};
+
 struct FRectangle2D
 {
 	FRectangle2D()
@@ -66,14 +87,15 @@ float AngleBetweenTwoRotators(FRotator R1, FRotator R2);
 FRotator ProjectRotatorOntoPlane(const FRotator Rotator, const FVector PlaneNormal);
 FRotator VectorToRotatorWithRoll(const FVector Vector, float Roll);
 float ClampAngle(float Angle);
-FVector2D Vector3To2(const FVector Vector);
-FVector Vector2To3(const FVector2D Vector2D);
 bool IsLineIntersectingCircle(FLine2D Line, FCircle2D Circle);
 bool IsRectangleIntersectingCircle(FRectangle2D Rectangle, FCircle2D Circle);
 float GetProjectionLength(const FVector Vector, const FVector On, const bool NeedNegative = false);
 FVector2D FindTangentPoint(const FVector2D Point, const FCircle2D Circle, const bool IsLeftTangent);
-FVector2D GetPointOnArc(const FCircle2D Circle, const FVector2D TangentA, const FVector2D TangentB, float ArcLength);
 float GetArcLength(const FCircle2D Circle, const FVector2D TangentA, const FVector2D TangentB);
+
+FVector2D GetPointOnArc(const FVector2D& Center, const FVector2D& TangentA, const FVector2D& TangentB, const float ArcLength);
+FVector GetPointOnArc(const FVector& Center, const FVector& TangentA, const FVector& TangentB, const float ArcLength);
+FVector GetPointOnArc(const FCircle3D& Circle, const FVector& Tangent, const float Angle);
 
 FVector ClearZ(FVector);
 FVector ClearX(FVector);
@@ -82,3 +104,5 @@ FVector ClearY(FVector);
 FVector2D ClearX(FVector2D);
 FVector2D ClearY(FVector2D);
 
+FVector2D Vector3To2(const FVector Vector);
+FVector Vector2To3(const FVector2D Vector2D);

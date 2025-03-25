@@ -5,11 +5,11 @@
 
 class AMarionette;
 
-class UPM_Walk final : public UPassiveMove
+class FPM_Walk final : public FPassiveMove
 {
 public:
 	
-	UPM_Walk();
+	FPM_Walk();
 	
 private:
 	float AngleVisionToMoveDirection;
